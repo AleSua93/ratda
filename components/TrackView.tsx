@@ -1,4 +1,5 @@
 import { AudioTrack } from "../pages";
+import { toPascalCase } from "../utils/casing";
 
 interface Props {
   tracks: AudioTrack[];
@@ -27,7 +28,7 @@ export default function TrackView({ tracks, setTracks }: Props) {
     <div className="flex flex-col gap-4 my-2">
       {tracks.map((track) => (
         <div key={track.id} className="flex flex-col gap-2">
-          <div className="p-1 rounded-sm">{track.name}</div>
+          <div className="p-1 rounded-sm">{toPascalCase(track.name)}</div>
           <select
             className="p-1 rounded-sm hover:cursor-pointer"
             onChange={(ev) => {

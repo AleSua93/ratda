@@ -1,8 +1,10 @@
 import { PlayIcon, StopIcon } from "@heroicons/react/solid";
+import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import TrackView from "../components/TrackView";
 import { AppAudioContext } from "../context/app-audio-context";
+import { TrackMetadata } from "./api/audio-files";
 
 export interface AudioStem {
   id: string;
@@ -17,33 +19,33 @@ export interface AudioTrack {
   stems: AudioStem[];
 }
 
-const trackNames = ["track_1", "track_2", "track_3", "track_4"];
-const prefix = "audio_files";
-const stemNames = [
-  "broken subbass 1 A",
-  "cello contramelo 3",
-  "viento roto 1 B",
-  "violin 1 contramelo 2",
-];
-const extension = ".mp3";
-
 const Home: NextPage = () => {
   const { audioContext, setAudioContext } = useContext(AppAudioContext);
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
+  const {
+    data: trackMetadata,
+    isLoading,
+    error,
+  } = useQuery<TrackMetadata[]>(["audio-files"], async () => {
+    const response = await fetch("/api/audio-files");
+    const data = await response.json();
+    return data;
+  });
 
   useEffect(() => {
-    let ctx = audioContext ?? new AudioContext();
-    if (!audioContext) {
-      setAudioContext(ctx);
+    if (!trackMetadata) {
+      return;
     }
 
-    const tracks: AudioTrack[] = trackNames.map((name) => {
-      const stems = stemNames.map((stemName, idx) => {
-        const filePath = `${prefix}/${stemName}${extension}`;
+    const tracks: AudioTrack[] = trackMetadata.map((trackData) => {
+      const prefix = "audio_files";
+
+      const stems = trackData.stems.map((stem, idx) => {
+        const filePath = `${prefix}/${trackData.name}/${stem.name}`;
         const audioElement = new Audio(filePath);
         return {
-          id: stemName,
+          id: stem.id,
           filePath,
           audioElement,
           active: idx === 0,
@@ -51,16 +53,21 @@ const Home: NextPage = () => {
       });
 
       return {
-        id: name,
+        id: trackData.id,
+        name: trackData.name,
         stems,
-        name,
       };
     });
 
     setTracks(tracks);
-  }, [audioContext, setAudioContext]);
+  }, [trackMetadata]);
 
   const handlePlay = () => {
+    let ctx = audioContext ?? new AudioContext();
+    if (!audioContext) {
+      setAudioContext(ctx);
+    }
+
     if (audioContext?.state === "suspended") {
       audioContext.resume();
     }
@@ -90,7 +97,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="flex gap-4 col-start-1 row-start-4 self-start justify-self-center">
+      <div className="flex gap-4 col-start-1 row-start-4 self-end">
         <button
           type="button"
           className={`${
