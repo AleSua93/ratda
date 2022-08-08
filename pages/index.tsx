@@ -97,7 +97,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="flex gap-4 col-start-1 row-start-4 self-end">
+      <div className="flex gap-4 col-start-2 col-span-2 row-start-4 self-center justify-self-center">
         <button
           type="button"
           className={`${
@@ -106,7 +106,7 @@ const Home: NextPage = () => {
           disabled={isPlaying}
           onClick={handlePlay}
         >
-          <PlayIcon className="text-gray-300" />
+          <PlayIcon className="h-16 text-gray-300" />
         </button>
         <button
           type="button"
@@ -116,7 +116,7 @@ const Home: NextPage = () => {
           disabled={!isPlaying}
           onClick={handlePause}
         >
-          <StopIcon className="text-gray-300" />
+          <StopIcon className="h-16 text-gray-300" />
         </button>
       </div>
       <div className="col-start-1 col-span-1">
