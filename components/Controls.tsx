@@ -30,7 +30,7 @@ export default function Controls({ onPlay, onPause }: Props) {
         } text-black p-2 rounded-md hover:pointer `}
         disabled={!isPlaying}
         onClick={() => {
-          setIsPlaying(true);
+          setIsPlaying(false);
           onPause();
         }}
       >
