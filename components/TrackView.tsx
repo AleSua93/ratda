@@ -23,9 +23,9 @@ export default function TrackView({ tracks, setTracks }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full gap-4 my-2 items-center justify-center text-center">
+    <div className="flex flex-col h-full gap-4 p-4 w-full md:w-1/2 self-center justify-center text-center">
       {tracks.map((track) => (
-        <div key={track.id} className="flex flex-col w-1/2 gap-2">
+        <div key={track.id} className="flex flex-col w-full gap-2">
           <div className="m-1 text-gray-400">{toPascalCase(track.name)}</div>
           <select
             className="p-4 bg-gray-900 rounded-sm hover:cursor-pointer"
