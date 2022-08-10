@@ -9,6 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <title>RATDA</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <div id="animated-background"></div>
       <div className="flex flex-col h-full justify-between">{children}</div>
     </>
   );
