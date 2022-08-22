@@ -2,6 +2,7 @@ import { PlayIcon, StopIcon } from "@heroicons/react/solid";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import Controls from "../components/Controls";
 import TrackView from "../components/TrackView";
 import { AppAudioContext } from "../context/app-audio-context";
 import { TrackMetadata } from "./api/audio-files";
@@ -22,7 +23,6 @@ export interface AudioTrack {
 const Home: NextPage = () => {
   const { audioContext, setAudioContext } = useContext(AppAudioContext);
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
-  const [isPlaying, setIsPlaying] = useState(false);
   const {
     data: trackMetadata,
     isLoading,
@@ -75,8 +75,6 @@ const Home: NextPage = () => {
     for (const track of tracks) {
       getActiveStem(track.id)?.audioElement.play();
     }
-
-    setIsPlaying(true);
   };
 
   const handlePause = () => {
@@ -87,8 +85,6 @@ const Home: NextPage = () => {
     for (const track of tracks) {
       getActiveStem(track.id)?.audioElement.pause();
     }
-
-    setIsPlaying(false);
   };
 
   const getActiveStem = (trackId: string) => {
@@ -97,30 +93,9 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <div className="flex gap-4 col-start-2 col-span-2 row-start-4 self-center justify-self-center">
-        <button
-          type="button"
-          className={`${
-            isPlaying ? "opacity-20" : ""
-          } text-black p-2 rounded-md hover:pointer`}
-          disabled={isPlaying}
-          onClick={handlePlay}
-        >
-          <PlayIcon className="h-16 text-gray-300" />
-        </button>
-        <button
-          type="button"
-          className={`${
-            !isPlaying ? "opacity-20" : ""
-          } text-black p-2 rounded-md hover:pointer `}
-          disabled={!isPlaying}
-          onClick={handlePause}
-        >
-          <StopIcon className="h-16 text-gray-300" />
-        </button>
-      </div>
-      <div className="col-start-1 col-span-1">
-        <TrackView tracks={tracks} setTracks={setTracks} />
+      <TrackView tracks={tracks} setTracks={setTracks} />
+      <div className="flex border-t-2 border-gray-700 bg-gray-900 gap-4 justify-center z-10">
+        <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
     </>
   );

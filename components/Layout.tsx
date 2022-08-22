@@ -1,4 +1,6 @@
 import Head from "next/head";
+import Image from "next/image";
+import background from "../public/background.jpg";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -7,9 +9,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <title>RATDA</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <div className="grid h-full w-full grid-cols-4 grid-rows-4 border-2 border-gray-900 p-4">
-        {children}
-      </div>
+      <div id="animated-background"></div>
+      <div className="flex flex-col h-full justify-between">{children}</div>
     </>
   );
 }
