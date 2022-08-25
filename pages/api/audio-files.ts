@@ -1,7 +1,6 @@
 import fs from "fs";
-import path from "path";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getUrlForFiles } from "../../utils/s3";
+import path from "path";
 
 export type TrackMetadata = {
   id: string;
@@ -16,9 +15,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<TrackMetadata[]>
 ) {
-  const preSignedUrl = await getUrlForFiles();
-  console.log(preSignedUrl);
-
   // taken from https://medium.com/@boris.poehland.business/next-js-api-routes-how-to-read-files-from-directory-compatible-with-vercel-5fb5837694b9
   const dirRelativeToPublicFolder = "audio_files";
   const dir = path.resolve("./public", dirRelativeToPublicFolder);

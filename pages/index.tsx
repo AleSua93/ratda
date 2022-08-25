@@ -1,10 +1,11 @@
-import { PlayIcon, StopIcon } from "@heroicons/react/solid";
 import { useQuery } from "@tanstack/react-query";
 import type { NextPage } from "next";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Controls from "../components/Controls";
+import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
 import { AppAudioContext } from "../context/app-audio-context";
+import { useAudioFiles } from "../hooks/useAudioFiles";
 import { TrackMetadata } from "./api/audio-files";
 
 export interface AudioStem {
@@ -32,6 +33,8 @@ const Home: NextPage = () => {
     const data = await response.json();
     return data;
   });
+
+  const { files, isLoading: isDownloadingFiles } = useAudioFiles();
 
   useEffect(() => {
     if (!trackMetadata) {
@@ -90,6 +93,14 @@ const Home: NextPage = () => {
   const getActiveStem = (trackId: string) => {
     return tracks.find((t) => t.id === trackId)?.stems.find((s) => s.active);
   };
+
+  if (isDownloadingFiles) {
+    return (
+      <div className="flex h-full items-center justify-center">
+        <Spinner className="text-gray-500 h-8 w-8" />
+      </div>
+    );
+  }
 
   return (
     <>
