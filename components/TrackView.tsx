@@ -1,32 +1,16 @@
 import { AudioTrack } from "../hooks/useAudioFiles";
-import { toPascalCase } from "../utils/casing";
 
 interface Props {
   tracks: AudioTrack[];
-  setTracks: (tracks: AudioTrack[]) => void;
+  setActiveStem: (trackId: string, stemId: string) => void;
 }
 
-export default function TrackView({ tracks, setTracks }: Props) {
-  const setActiveStem = (trackId: string, stemId: string) => {
-    setTracks(
-      tracks.map((t) => {
-        if (t.id === trackId) {
-          t.stems.forEach((s) => {
-            s.active = s.id === stemId;
-            s.id === stemId ? s.audioElement.play() : s.audioElement.pause();
-          });
-        }
-
-        return t;
-      })
-    );
-  };
-
+export default function TrackView({ tracks, setActiveStem }: Props) {
   return (
     <div className="flex flex-col h-full gap-4 p-4 w-full md:w-1/2 self-center justify-center text-center">
       {tracks.map((track) => (
         <div key={track.id} className="flex flex-col w-full gap-2">
-          <div className="m-1 text-gray-400">{toPascalCase(track.name)}</div>
+          <div className="m-1 text-gray-400">{track.name}</div>
           <select
             className="p-4 bg-gray-900 rounded-sm hover:cursor-pointer"
             onChange={(ev) => {
