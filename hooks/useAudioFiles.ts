@@ -18,6 +18,7 @@ export type AudioTrack = {
 
 export function useAudioFiles() {
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
     ["audio-files-dl-url"],
     async () => {
@@ -27,7 +28,7 @@ export function useAudioFiles() {
     }
   );
 
-  const { data: audioFiles, isLoading } = useQuery<any>(
+  const { data: audioFiles } = useQuery<any>(
     ["downloaded-audio-files"],
     async () => {
       if (audioFilesDownloadUrl) {
@@ -69,11 +70,12 @@ export function useAudioFiles() {
           id: stemName,
           name: stemName,
           audioElement,
-          active: true,
+          active: false,
         });
       }
     }
 
+    setIsLoading(false);
     return res;
   };
 
