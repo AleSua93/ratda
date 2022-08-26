@@ -1,6 +1,6 @@
 import fs from "fs";
-import path from "path";
 import type { NextApiRequest, NextApiResponse } from "next";
+import path from "path";
 
 export type TrackMetadata = {
   id: string;
@@ -11,7 +11,7 @@ export type TrackMetadata = {
   }[];
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<TrackMetadata[]>
 ) {

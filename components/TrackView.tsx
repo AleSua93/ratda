@@ -1,4 +1,4 @@
-import { AudioTrack } from "../pages";
+import { AudioTrack } from "../hooks/useAudioFiles";
 import { toPascalCase } from "../utils/casing";
 
 interface Props {
