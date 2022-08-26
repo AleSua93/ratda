@@ -54,8 +54,8 @@ export function useAudioFiles() {
 
       const trackName = file.name.split("/")[0];
       const stemName = file.name.split("/")[1].split(".mp3")[0];
-      const data = await (await file.async("blob")).text();
-      const audioElement = new Audio(data);
+      const data = await file.async("blob");
+      const audioElement = new Audio(URL.createObjectURL(data));
 
       const trackIndex = res.findIndex((t) => t.id === trackName);
       if (trackIndex === -1) {
