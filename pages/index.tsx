@@ -11,12 +11,25 @@ const Home: NextPage = () => {
   const { tracks, setTracks, isLoading } = useAudioFiles();
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const getActiveStem = useCallback(
-    (trackId: string) => {
-      return tracks.find((t) => t.id === trackId)?.stems.find((s) => s.active);
-    },
-    [tracks]
-  );
+  const pauseAllStems = useCallback(() => {
+    for (const track of tracks) {
+      for (const stem of track.stems) {
+        stem.audioElement.pause();
+      }
+    }
+  }, [tracks]);
+
+  const playActiveStems = useCallback(() => {
+    for (const track of tracks) {
+      for (const stem of track.stems) {
+        if (stem.active) {
+          stem.audioElement.play();
+        } else {
+          stem.audioElement.pause();
+        }
+      }
+    }
+  }, [tracks]);
 
   const handlePlay = useCallback(() => {
     let ctx = audioContext ?? new AudioContext();
@@ -28,24 +41,20 @@ const Home: NextPage = () => {
       audioContext.resume();
     }
 
-    for (const track of tracks) {
-      getActiveStem(track.id)?.audioElement.play();
-    }
+    playActiveStems();
 
     setIsPlaying(true);
-  }, [audioContext, tracks, getActiveStem, setAudioContext]);
+  }, [audioContext, setAudioContext, playActiveStems]);
 
   const handlePause = useCallback(() => {
     if (audioContext?.state === "suspended") {
       audioContext.resume();
     }
 
-    for (const track of tracks) {
-      getActiveStem(track.id)?.audioElement.pause();
-    }
+    pauseAllStems();
 
     setIsPlaying(false);
-  }, [audioContext, tracks, getActiveStem]);
+  }, [audioContext, pauseAllStems]);
 
   // Handle start/stop of audio playback when controls are used or stems change
   useEffect(() => {
