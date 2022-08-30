@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import JSZip, { JSZipObject } from "jszip";
 import { useEffect, useState } from "react";
-import { AudioFilesDownloadUrl } from "../pages/api/v2/audio-files";
+import { AudioFilesDownloadUrl } from "../pages/api/audio-files";
 
 export interface AudioStem {
   id: string;
@@ -22,7 +22,7 @@ export function useAudioFiles() {
   const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
     ["audio-files-dl-url"],
     async () => {
-      const response = await fetch("/api/v2/audio-files");
+      const response = await fetch("/api/audio-files");
       const data = await response.json();
       return data;
     }
