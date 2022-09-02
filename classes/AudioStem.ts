@@ -54,8 +54,6 @@ export default class AudioStem {
     );
 
     setTimeout(() => {
-      console.log("pausing", this.name);
-
       this.audioElement.pause();
       this.isPlaying = false;
     }, FADE_TIME_SECONDS * 1000);
