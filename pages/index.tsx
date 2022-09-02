@@ -20,7 +20,9 @@ const Home: NextPage = () => {
   const pauseAllStems = useCallback(() => {
     for (const track of tracks) {
       for (const stem of track.stems) {
-        stem.audioElement.pause();
+        if (stem.isPlaying) {
+          stem.pause();
+        }
       }
     }
   }, [tracks]);
@@ -29,9 +31,11 @@ const Home: NextPage = () => {
     for (const track of tracks) {
       for (const stem of track.stems) {
         if (stem.active) {
-          stem.audioElement.play();
+          stem.play();
         } else {
-          stem.audioElement.pause();
+          if (stem.isPlaying) {
+            stem.pause();
+          }
         }
       }
     }

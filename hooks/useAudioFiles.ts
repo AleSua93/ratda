@@ -1,14 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import JSZip, { JSZipObject } from "jszip";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import AudioStem from "../classes/AudioStem";
 import { AudioFilesDownloadUrl } from "../pages/api/audio-files";
-
-export interface AudioStem {
-  id: string;
-  name: string;
-  audioElement: HTMLAudioElement;
-  active: boolean;
-}
 
 export type AudioTrack = {
   id: string;
@@ -41,44 +35,48 @@ export function useAudioFiles(audioContext: AudioContext | null) {
     { enabled: audioFilesDownloadUrl !== undefined }
   );
 
-  const parseDownloadedFiles = async (zippedFiles: {
-    [key: string]: JSZipObject;
-  }): Promise<AudioTrack[]> => {
-    const keys = Object.keys(zippedFiles);
+  const parseDownloadedFiles = useCallback(
+    async (zippedFiles: {
+      [key: string]: JSZipObject;
+    }): Promise<AudioTrack[]> => {
+      const res = [] as AudioTrack[];
 
-    const res = [] as AudioTrack[];
-
-    for (const key of keys) {
-      const file = zippedFiles[key];
-      if (!file.name.includes(".mp3")) {
-        continue;
+      if (!audioContext) {
+        return res;
       }
 
-      const trackName = file.name.split("/")[0];
-      const stemName = file.name.split("/")[1].split(".mp3")[0];
-      const data = await file.async("blob");
-      const audioElement = new Audio(URL.createObjectURL(data));
+      const keys = Object.keys(zippedFiles);
 
-      const trackIndex = res.findIndex((t) => t.id === trackName);
-      if (trackIndex === -1) {
-        res.push({
-          id: trackName,
-          name: trackName,
-          stems: [{ id: stemName, name: stemName, audioElement, active: true }],
-        });
-      } else {
-        res[trackIndex].stems.push({
-          id: stemName,
-          name: stemName,
-          audioElement,
-          active: false,
-        });
+      for (const key of keys) {
+        const file = zippedFiles[key];
+        if (!file.name.includes(".mp3")) {
+          continue;
+        }
+
+        const trackName = file.name.split("/")[0];
+        const stemName = file.name.split("/")[1].split(".mp3")[0];
+        const data = await file.async("blob");
+        const audioElement = new Audio(URL.createObjectURL(data));
+
+        const trackIndex = res.findIndex((t) => t.id === trackName);
+        if (trackIndex === -1) {
+          res.push({
+            id: trackName,
+            name: trackName,
+            stems: [new AudioStem(audioContext, audioElement, stemName, true)],
+          });
+        } else {
+          res[trackIndex].stems.push(
+            new AudioStem(audioContext, audioElement, stemName, false)
+          );
+        }
       }
-    }
 
-    setIsLoading(false);
-    return res;
-  };
+      setIsLoading(false);
+      return res;
+    },
+    [audioContext]
+  );
 
   useEffect(() => {
     if (audioFiles) {
@@ -88,7 +86,7 @@ export function useAudioFiles(audioContext: AudioContext | null) {
         setTracks(trackData);
       });
     }
-  }, [audioFiles]);
+  }, [audioFiles, parseDownloadedFiles]);
 
   return {
     tracks,
