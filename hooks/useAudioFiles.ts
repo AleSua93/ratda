@@ -16,7 +16,7 @@ export type AudioTrack = {
   stems: AudioStem[];
 };
 
-export function useAudioFiles() {
+export function useAudioFiles(audioContext: AudioContext | null) {
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
@@ -25,7 +25,8 @@ export function useAudioFiles() {
       const response = await fetch("/api/audio-files");
       const data = await response.json();
       return data;
-    }
+    },
+    { enabled: audioContext !== null }
   );
 
   const { data: audioFiles } = useQuery<any>(

@@ -1,15 +1,21 @@
 import type { NextPage } from "next";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Controls from "../components/Controls";
 import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
-import { AppAudioContext } from "../context/app-audio-context";
 import { useAudioFiles } from "../hooks/useAudioFiles";
 
 const Home: NextPage = () => {
-  const { audioContext, setAudioContext } = useContext(AppAudioContext);
-  const { tracks, setTracks, isLoading } = useAudioFiles();
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const { tracks, setTracks, isLoading } = useAudioFiles(audioContext);
   const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    if (!audioContext) {
+      setAudioContext(new AudioContext());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pauseAllStems = useCallback(() => {
     for (const track of tracks) {
@@ -32,11 +38,6 @@ const Home: NextPage = () => {
   }, [tracks]);
 
   const handlePlay = useCallback(() => {
-    let ctx = audioContext ?? new AudioContext();
-    if (!audioContext) {
-      setAudioContext(ctx);
-    }
-
     if (audioContext?.state === "suspended") {
       audioContext.resume();
     }
@@ -44,7 +45,7 @@ const Home: NextPage = () => {
     playActiveStems();
 
     setIsPlaying(true);
-  }, [audioContext, setAudioContext, playActiveStems]);
+  }, [audioContext, playActiveStems]);
 
   const handlePause = useCallback(() => {
     if (audioContext?.state === "suspended") {
