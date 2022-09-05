@@ -52,10 +52,10 @@ export default class AudioStem {
       MIN_GAIN,
       now + FADE_TIME_SECONDS
     );
+    this.isPlaying = false;
 
     setTimeout(() => {
       this.audioElement.pause();
-      this.isPlaying = false;
     }, FADE_TIME_SECONDS * 1000);
   }
 }

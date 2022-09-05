@@ -9,9 +9,9 @@ const s3 = new S3({
 
 export async function getUrlForFiles() {
   let key = "audio_files.zip";
-  if (process.env.NODE_ENV === "development") {
-    key = "test_audio_files_2.zip";
-  }
+  // if (process.env.NODE_ENV === "development") {
+  //   key = "test_audio_files_2.zip";
+  // }
 
   const params = {
     Bucket: process.env.S3_BUCKET_NAME ?? "",
