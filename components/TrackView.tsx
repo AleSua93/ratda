@@ -17,8 +17,6 @@ export default function TrackView({ tracks, setActiveStem }: Props) {
     }
 
     tracks.forEach((t) => {
-      console.log(weatherData[t.id].stemId);
-
       setActiveStem(t.id, weatherData[t.id].stemId);
     });
   }, [weatherData]);

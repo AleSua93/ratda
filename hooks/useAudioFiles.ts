@@ -65,7 +65,7 @@ export function useAudioFiles(audioContext: AudioContext | null) {
           res.push({
             id: trackId,
             name: trackName,
-            stems: [new AudioStem(audioContext, audioElement, stemName, true)],
+            stems: [new AudioStem(audioContext, audioElement, stemName, false)],
           });
         } else {
           res[trackIndex].stems.push(

@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { ApiWeatherResult } from "../pages/api/weather";
 
-const REFETCH_INTERVAL_MS = 2000;
+const REFETCH_INTERVAL_MS = 5000;
 
 export default function useWeather() {
   const { data: weatherData, isLoading } = useQuery<ApiWeatherResult>(
