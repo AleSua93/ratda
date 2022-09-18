@@ -3,9 +3,10 @@ import JSZip, { JSZipObject } from "jszip";
 import { useCallback, useEffect, useState } from "react";
 import AudioStem from "../classes/AudioStem";
 import { AudioFilesDownloadUrl } from "../pages/api/audio-files";
+import { TrackId } from "../pages/api/weather";
 
 export type AudioTrack = {
-  id: string;
+  id: TrackId;
   name: string;
   stems: AudioStem[];
 };
@@ -54,14 +55,15 @@ export function useAudioFiles(audioContext: AudioContext | null) {
         }
 
         const trackName = file.name.split("/")[0];
+        const trackId = trackName.toLowerCase() as TrackId; // make this the same for now
         const stemName = file.name.split("/")[1].split(".mp3")[0];
         const data = await file.async("blob");
         const audioElement = new Audio(URL.createObjectURL(data));
 
-        const trackIndex = res.findIndex((t) => t.id === trackName);
+        const trackIndex = res.findIndex((t) => t.id === trackId);
         if (trackIndex === -1) {
           res.push({
-            id: trackName,
+            id: trackId,
             name: trackName,
             stems: [new AudioStem(audioContext, audioElement, stemName, true)],
           });
