@@ -1,5 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { type } from "os";
 import { getStemId } from "./utils";
 
 // See https://openweathermap.org/current
@@ -47,18 +46,22 @@ type WeatherResult = {
   cod: number;
 };
 
-type ApiWeatherResult = {
+export type TrackId = "melodia" | "contramelodia" | "sosten" | "bajo";
+
+export type WeatherParameter =
+  | "wind-speed"
+  | "temperature"
+  | "humidity"
+  | "pressure";
+
+export type ApiWeatherData = {
   value: number;
   unit: string;
-  stemName: string;
+  stemId: string;
+  parameter: WeatherParameter;
 };
 
-type ApiWeatherResults = {
-  pressure: ApiWeatherResult;
-  windSpeed: ApiWeatherResult;
-  temp: ApiWeatherResult;
-  humidity: ApiWeatherResult;
-};
+export type ApiWeatherResult = Record<TrackId, ApiWeatherData>;
 
 export default async function handler(
   req: NextApiRequest,
@@ -76,30 +79,36 @@ export default async function handler(
   const data = await fetch(url);
   const weatherData = (await data.json()) as WeatherResult;
 
+  console.log(weatherDataToApi(weatherData));
+
   res.status(200).json(weatherDataToApi(weatherData));
 }
 
-const weatherDataToApi = (data: WeatherResult): ApiWeatherResults => {
+const weatherDataToApi = (data: WeatherResult): ApiWeatherResult => {
   return {
-    pressure: {
+    melodia: {
       value: data.main.pressure,
       unit: "hPa",
-      stemName: getStemId("pressure", data.main.pressure),
+      parameter: "pressure",
+      stemId: getStemId("pressure", data.main.pressure),
     },
-    windSpeed: {
+    contramelodia: {
       value: data.wind.speed,
       unit: "m/s",
-      stemName: getStemId("wind-speed", data.wind.speed),
+      parameter: "wind-speed",
+      stemId: getStemId("wind-speed", data.wind.speed),
     },
-    temp: {
+    bajo: {
       value: data.main.temp,
       unit: "°C",
-      stemName: getStemId("temperature", data.main.temp),
+      parameter: "temperature",
+      stemId: getStemId("temperature", data.main.temp),
     },
-    humidity: {
+    sosten: {
       value: data.main.humidity,
       unit: "%",
-      stemName: getStemId("humidity", data.main.humidity),
+      parameter: "humidity",
+      stemId: getStemId("humidity", data.main.humidity),
     },
   };
 };
