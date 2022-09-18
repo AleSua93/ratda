@@ -37,20 +37,24 @@ const Home: NextPage = () => {
       />
       {isDebugMode && (
         <table>
-          <th>trackID</th>
-          <th>active</th>
-          <th>is playing</th>
-          {tracks.map((t) => {
-            return t.stems.map((s) => {
-              return (
-                <tr key={s.id}>
-                  <td>{s.id}</td>
-                  <td>{s.active ? "true" : "false"}</td>
-                  <td>{s.isPlaying ? "true" : "false"}</td>
-                </tr>
-              );
-            });
-          })}
+          <thead>
+            <th>trackID</th>
+            <th>active</th>
+            <th>is playing</th>
+          </thead>
+          <tbody>
+            {tracks.map((t) => {
+              return t.stems.map((s) => {
+                return (
+                  <tr key={s.id}>
+                    <td>{s.id}</td>
+                    <td>{s.active ? "true" : "false"}</td>
+                    <td>{s.isPlaying ? "true" : "false"}</td>
+                  </tr>
+                );
+              });
+            })}
+          </tbody>
         </table>
       )}
       <TrackView tracks={tracks} setActiveStem={setActiveStem} />
