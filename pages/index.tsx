@@ -1,17 +1,19 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Button from "../components/common/Button";
 import Controls from "../components/Controls";
+import DebugTable from "../components/DebugTable";
 import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import useTracks from "../hooks/useTracks";
 
 const Home: NextPage = () => {
-  const { isDebugMode, toggleDebugMode } = useDebugMode();
+  const { isDebugMode, setIsDebugMode } = useDebugMode();
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const { tracks, setActiveStem, handlePlay, handlePause, isLoadingFiles } =
     useTracks(audioContext);
+  const router = useRouter();
 
   useEffect(() => {
     if (!audioContext) {
@@ -19,6 +21,12 @@ const Home: NextPage = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (router.query.debug === "true") {
+      setIsDebugMode(true);
+    }
+  }, [router, setIsDebugMode]);
 
   if (isLoadingFiles) {
     return (
@@ -30,33 +38,7 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <Button
-        text={`Debug mode ${isDebugMode ? "off" : "on"}`}
-        className="m-2 self-end"
-        onClick={toggleDebugMode}
-      />
-      {isDebugMode && (
-        <table>
-          <thead>
-            <th>trackID</th>
-            <th>active</th>
-            <th>is playing</th>
-          </thead>
-          <tbody>
-            {tracks.map((t) => {
-              return t.stems.map((s) => {
-                return (
-                  <tr key={s.id}>
-                    <td>{s.id}</td>
-                    <td>{s.active ? "true" : "false"}</td>
-                    <td>{s.isPlaying ? "true" : "false"}</td>
-                  </tr>
-                );
-              });
-            })}
-          </tbody>
-        </table>
-      )}
+      {isDebugMode && <DebugTable tracks={tracks} />}
       <TrackView tracks={tracks} setActiveStem={setActiveStem} />
       <div className="flex border-t-2 border-gray-700 bg-gray-900 gap-4 justify-center z-10">
         <Controls onPause={handlePause} onPlay={handlePlay} />

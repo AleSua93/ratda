@@ -2,12 +2,12 @@ import { createContext, ReactNode, useContext, useState } from "react";
 
 interface IDebugContext {
   isDebugMode: boolean;
-  toggleDebugMode: () => void;
+  setIsDebugMode: (isDebug: boolean) => void;
 }
 
 export const DebugContext = createContext<IDebugContext>({
   isDebugMode: false,
-  toggleDebugMode: () => {},
+  setIsDebugMode: () => {},
 });
 
 export default function DebugContextProvider({
@@ -17,12 +17,8 @@ export default function DebugContextProvider({
 }) {
   const [isDebugMode, setIsDebugMode] = useState<boolean>(false);
 
-  const toggleDebugMode = () => {
-    setIsDebugMode(!isDebugMode);
-  };
-
   return (
-    <DebugContext.Provider value={{ isDebugMode, toggleDebugMode }}>
+    <DebugContext.Provider value={{ isDebugMode, setIsDebugMode }}>
       {children}
     </DebugContext.Provider>
   );
