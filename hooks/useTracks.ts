@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useAudioFiles } from "./useAudioFiles";
+import useWeather from "./useWeather";
 
 export default function useTracks(audioContext: AudioContext | null) {
   const {
@@ -7,7 +8,37 @@ export default function useTracks(audioContext: AudioContext | null) {
     setTracks,
     isLoading: isLoadingFiles,
   } = useAudioFiles(audioContext);
+  const { weatherData } = useWeather();
   const [isPlaying, setIsPlaying] = useState(false);
+
+  const setActiveStem = useCallback(
+    (trackId: string, stemId: string) => {
+      setTracks(
+        tracks.map((t) => {
+          if (t.id === trackId) {
+            t.stems.forEach((s) => {
+              s.active = s.id === stemId;
+            });
+          }
+
+          return t;
+        })
+      );
+    },
+    [tracks, setTracks]
+  );
+
+  useEffect(() => {
+    if (!weatherData) {
+      return;
+    }
+
+    if (!isLoadingFiles) {
+      tracks.forEach((t) => {
+        setActiveStem(t.id, weatherData[t.id].stemId);
+      });
+    }
+  }, [weatherData, isLoadingFiles]);
 
   const pauseAllStems = useCallback(() => {
     for (const track of tracks) {
@@ -64,19 +95,12 @@ export default function useTracks(audioContext: AudioContext | null) {
     }
   }, [tracks, isPlaying, handlePause, handlePlay]);
 
-  const setActiveStem = (trackId: string, stemId: string) => {
-    setTracks(
-      tracks.map((t) => {
-        if (t.id === trackId) {
-          t.stems.forEach((s) => {
-            s.active = s.id === stemId;
-          });
-        }
-
-        return t;
-      })
-    );
+  return {
+    tracks,
+    setActiveStem,
+    handlePlay,
+    handlePause,
+    isLoadingFiles,
+    weatherData,
   };
-
-  return { tracks, setActiveStem, handlePlay, handlePause, isLoadingFiles };
 }

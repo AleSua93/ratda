@@ -1,30 +1,23 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useDebugMode } from "../context/debug-context";
 import { AudioTrack } from "../hooks/useAudioFiles";
-import useWeather from "../hooks/useWeather";
+import { ApiWeatherResult } from "../pages/api/weather";
 import WeatherInfo from "./WeatherInfo";
 
 interface Props {
   tracks: AudioTrack[];
   setActiveStem: (trackId: string, stemId: string) => void;
+  weatherData?: ApiWeatherResult;
 }
 
-export default function TrackView({ tracks, setActiveStem }: Props) {
+export default function TrackView({
+  tracks,
+  setActiveStem,
+  weatherData,
+}: Props) {
   const { isDebugMode } = useDebugMode();
-  const { weatherData } = useWeather();
-
-  useEffect(() => {
-    if (!weatherData) {
-      return;
-    }
-
-    tracks.forEach((t) => {
-      setActiveStem(t.id, weatherData[t.id].stemId);
-    });
-  }, [weatherData]);
 
   return (
-    // todo improve className below
     <div className="flex flex-col p-4 w-full md:w-2/3 h-full self-center justify-center">
       <div className="grid grid-cols-3 gap-8">
         {isDebugMode ? (
@@ -43,6 +36,7 @@ export default function TrackView({ tracks, setActiveStem }: Props) {
                       className="hover:cursor-pointer"
                       value={stem.id}
                       key={stem.id}
+                      selected={stem.active}
                     >
                       {stem.id}
                     </option>
