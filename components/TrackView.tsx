@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { useDebugMode } from "../context/debug-context";
-import { AudioTrack } from "../hooks/useAudioFiles";
+import { AudioTrack } from "../hooks/useTracks";
 import { ApiWeatherResult } from "../pages/api/weather";
 import WeatherInfo from "./WeatherInfo";
 
@@ -27,6 +27,7 @@ export default function TrackView({
                 <div className="m-1 text-gray-400">{track.name}</div>
                 <select
                   className="p-4 bg-gray-900 rounded-sm hover:cursor-pointer"
+                  value={track.stems.find((s) => s.active)?.id}
                   onChange={(ev) => {
                     setActiveStem(track.id, ev.target.value);
                   }}
@@ -36,7 +37,6 @@ export default function TrackView({
                       className="hover:cursor-pointer"
                       value={stem.id}
                       key={stem.id}
-                      selected={stem.active}
                     >
                       {stem.id}
                     </option>

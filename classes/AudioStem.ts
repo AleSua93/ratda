@@ -5,7 +5,6 @@ const FADE_TIME_SECONDS = 2;
 export default class AudioStem {
   id: string;
   name: string;
-  isPlaying: boolean;
   active: boolean = false;
   audioElement: HTMLAudioElement;
   audioContext: AudioContext;
@@ -21,7 +20,6 @@ export default class AudioStem {
     // todo generate id
     this.id = this.name = name;
     this.active = active;
-    this.isPlaying = false;
     this.audioContext = audioContext;
     this.audioElement = audio;
     this.audioNode = audioContext.createMediaElementSource(audio);
@@ -41,7 +39,6 @@ export default class AudioStem {
       now + FADE_TIME_SECONDS
     );
     this.audioElement.play();
-    this.isPlaying = true;
   }
 
   pause() {
@@ -52,10 +49,13 @@ export default class AudioStem {
       MIN_GAIN,
       now + FADE_TIME_SECONDS
     );
-    this.isPlaying = false;
 
     setTimeout(() => {
       this.audioElement.pause();
     }, FADE_TIME_SECONDS * 1000);
+  }
+
+  isPlaying() {
+    return !this.audioElement.paused || this.audioElement.currentTime;
   }
 }

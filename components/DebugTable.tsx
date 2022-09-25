@@ -1,4 +1,4 @@
-import { AudioTrack } from "../hooks/useAudioFiles";
+import { AudioTrack } from "../hooks/useTracks";
 
 interface Props {
   tracks: AudioTrack[];
@@ -9,9 +9,11 @@ export default function DebugTable({ tracks }: Props) {
     <div className="overflow-scroll bg-gray-700 bg-opacity-50">
       <table className="text-left text-sm border-separate border-spacing-x-8">
         <thead>
-          <th>trackID</th>
-          <th>active</th>
-          <th>is playing</th>
+          <tr>
+            <th>trackID</th>
+            <th>active</th>
+            <th>is playing</th>
+          </tr>
         </thead>
         <tbody>
           {tracks.map((t) => {
@@ -22,8 +24,8 @@ export default function DebugTable({ tracks }: Props) {
                   <td className={`${s.active && "text-green-500"}`}>
                     {s.active ? "true" : "false"}
                   </td>
-                  <td className={`${s.isPlaying && "text-green-500"}`}>
-                    {s.isPlaying ? "true" : "false"}
+                  <td className={`${s.isPlaying() && "text-green-500"}`}>
+                    {s.isPlaying() ? "true" : "false"}
                   </td>
                 </tr>
               );

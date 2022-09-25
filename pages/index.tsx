@@ -6,7 +6,7 @@ import DebugTable from "../components/DebugTable";
 import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
 import { useDebugMode } from "../context/debug-context";
-import useTracks from "../hooks/useTracks";
+import usePlayback from "../hooks/usePlayback";
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();
@@ -18,7 +18,7 @@ const Home: NextPage = () => {
     handlePause,
     isLoadingFiles,
     weatherData,
-  } = useTracks(audioContext);
+  } = usePlayback(audioContext);
   const router = useRouter();
 
   useEffect(() => {
