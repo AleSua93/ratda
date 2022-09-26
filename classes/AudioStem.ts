@@ -31,6 +31,10 @@ export default class AudioStem {
   }
 
   play() {
+    if (this.isPlaying()) {
+      return;
+    }
+    console.log("* playing ", this.name);
     const now = this.audioContext.currentTime;
 
     this.gainNode.gain.value = MIN_GAIN;
@@ -42,6 +46,11 @@ export default class AudioStem {
   }
 
   pause() {
+    if (!this.isPlaying()) {
+      return;
+    }
+    console.log("- pausing ", this.name);
+
     const now = this.audioContext.currentTime;
 
     this.gainNode.gain.setValueAtTime(MAX_GAIN, now);
@@ -50,12 +59,14 @@ export default class AudioStem {
       now + FADE_TIME_SECONDS
     );
 
-    setTimeout(() => {
-      this.audioElement.pause();
-    }, FADE_TIME_SECONDS * 1000);
+    this.audioElement.pause();
+
+    // setTimeout(() => {
+    //   this.audioElement.pause();
+    // }, FADE_TIME_SECONDS * 1000);
   }
 
   isPlaying() {
-    return !this.audioElement.paused || this.audioElement.currentTime;
+    return !this.audioElement.paused;
   }
 }

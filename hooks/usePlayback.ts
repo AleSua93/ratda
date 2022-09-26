@@ -46,7 +46,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
     } else {
       pauseAllStems();
     }
-  }, [isPlaying]);
+  }, [isPlaying, tracks]);
 
   const handlePlay = () => {
     if (audioContext?.state === "suspended") {
