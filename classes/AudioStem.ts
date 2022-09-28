@@ -1,25 +1,25 @@
 const MAX_GAIN = 1.0;
 const MIN_GAIN = 0.0001;
-const FADE_TIME_SECONDS = 2;
+const FADE_TIME_SECONDS = 1;
+
+interface AudioStemParams {
+  audioContext: AudioContext;
+  audio: HTMLAudioElement;
+  name: string;
+  trackId: string;
+}
 
 export default class AudioStem {
-  id: string;
+  trackId: string;
   name: string;
-  active: boolean = false;
   audioElement: HTMLAudioElement;
   audioContext: AudioContext;
   audioNode: MediaElementAudioSourceNode;
   gainNode: GainNode;
 
-  constructor(
-    audioContext: AudioContext,
-    audio: HTMLAudioElement,
-    name: string,
-    active: boolean
-  ) {
-    // todo generate id
-    this.id = this.name = name;
-    this.active = active;
+  constructor({ audioContext, audio, name, trackId }: AudioStemParams) {
+    this.name = name;
+    this.trackId = trackId;
     this.audioContext = audioContext;
     this.audioElement = audio;
     this.audioNode = audioContext.createMediaElementSource(audio);

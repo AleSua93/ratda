@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import JSZip, { JSZipObject } from "jszip";
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import AudioStem from "../classes/AudioStem";
 import { AudioFilesDownloadUrl } from "../pages/api/audio-files";
 import { ApiWeatherResult, TrackId } from "../pages/api/weather";
@@ -9,11 +9,15 @@ import useWeather from "./useWeather";
 export type AudioTrack = {
   id: TrackId;
   name: string;
-  stems: AudioStem[];
+  stemRefs: {
+    stemId: string;
+    active: boolean;
+  }[];
 };
 
 export function useTracks(audioContext: AudioContext | null) {
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
+  const stems = useRef<Map<string, AudioStem>>(new Map<string, AudioStem>());
   const { weatherData } = useWeather();
   const [isLoading, setIsLoading] = useState(true);
   const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
@@ -42,7 +46,8 @@ export function useTracks(audioContext: AudioContext | null) {
           throw Error("Weather data not present for some reason");
         }
 
-        const tracks = await unzipAndConfigureTracks(data, weatherData);
+        const { tracks } = await unzipAndConfigureTracks(data, weatherData);
+
         setTracks(tracks);
       },
     }
@@ -55,8 +60,8 @@ export function useTracks(audioContext: AudioContext | null) {
   ) => {
     return audioTracks.map((t) => {
       if (t.id === trackId) {
-        t.stems.forEach((s) => {
-          s.active = s.id === stemId;
+        t.stemRefs.forEach((s) => {
+          s.active = s.stemId === stemId;
         });
       }
 
@@ -78,11 +83,11 @@ export function useTracks(audioContext: AudioContext | null) {
   const parseDownloadedFiles = useCallback(
     async (zippedFiles: {
       [key: string]: JSZipObject;
-    }): Promise<AudioTrack[]> => {
-      const res = [] as AudioTrack[];
+    }): Promise<{ audioTracks: AudioTrack[] }> => {
+      const audioTracks = [] as AudioTrack[];
 
       if (!audioContext) {
-        return res;
+        return { audioTracks };
       }
 
       const keys = Object.keys(zippedFiles);
@@ -96,25 +101,39 @@ export function useTracks(audioContext: AudioContext | null) {
         const trackName = file.name.split("/")[0];
         const trackId = trackName.toLowerCase() as TrackId; // make this the same for now
         const stemName = file.name.split("/")[1].split(".mp3")[0];
+        const stemId = stemName;
         const data = await file.async("blob");
         const audioElement = new Audio(URL.createObjectURL(data));
 
-        const trackIndex = res.findIndex((t) => t.id === trackId);
+        stems.current.set(
+          stemId,
+          new AudioStem({
+            audioContext,
+            audio: audioElement,
+            name: stemName,
+            trackId,
+          })
+        );
+
+        const trackIndex = audioTracks.findIndex((t) => t.id === trackId);
         if (trackIndex === -1) {
-          res.push({
+          audioTracks.push({
             id: trackId,
             name: trackName,
-            stems: [new AudioStem(audioContext, audioElement, stemName, false)],
+            stemRefs: [{ stemId, active: false }],
           });
         } else {
-          res[trackIndex].stems.push(
-            new AudioStem(audioContext, audioElement, stemName, false)
-          );
+          audioTracks[trackIndex].stemRefs.push({
+            stemId,
+            active: false,
+          });
         }
       }
 
       setIsLoading(false);
-      return res;
+      return {
+        audioTracks,
+      };
     },
     [audioContext]
   );
@@ -126,18 +145,19 @@ export function useTracks(audioContext: AudioContext | null) {
     const newZip = new JSZip();
 
     let tracks: AudioTrack[] = [];
-    await newZip.loadAsync(audioFiles).then(async (zip) => {
-      const trackData = await parseDownloadedFiles(zip.files);
-      const tracksWithActiveStems = setActiveStems(trackData, weatherData);
+    return await newZip.loadAsync(audioFiles).then(async (zip) => {
+      const { audioTracks } = await parseDownloadedFiles(zip.files);
+      const tracksWithActiveStems = setActiveStems(audioTracks, weatherData);
 
       tracks = tracksWithActiveStems;
-    });
 
-    return tracks;
+      return { tracks };
+    });
   };
 
   return {
     tracks,
+    stems: stems.current,
     setTracks,
     isLoading,
     weatherData,

@@ -85,30 +85,35 @@ export default async function handler(
 }
 
 const weatherDataToApi = (data: WeatherResult): ApiWeatherResult => {
+  const temperature = data.main.temp;
+  const windSpeed = data.wind.speed;
+  const pressure = data.main.pressure;
+  const humidity = data.main.humidity;
+
   return {
     melodia: {
-      value: data.main.pressure,
+      value: pressure,
       unit: "hPa",
       parameter: "pressure",
-      stemId: getStemId("pressure", data.main.pressure),
+      stemId: getStemId("pressure", pressure),
     },
     contramelodia: {
-      value: data.wind.speed,
+      value: windSpeed,
       unit: "m/s",
       parameter: "wind-speed",
-      stemId: getStemId("wind-speed", data.wind.speed),
+      stemId: getStemId("wind-speed", windSpeed),
     },
     bajo: {
-      value: data.main.temp,
+      value: temperature,
       unit: "°C",
       parameter: "temperature",
-      stemId: getStemId("temperature", data.main.temp),
+      stemId: getStemId("temperature", temperature),
     },
     sosten: {
-      value: data.main.humidity,
+      value: humidity,
       unit: "%",
       parameter: "humidity",
-      stemId: getStemId("humidity", data.main.humidity),
+      stemId: getStemId("humidity", humidity),
     },
   };
 };

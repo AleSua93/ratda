@@ -27,18 +27,18 @@ export default function TrackView({
                 <div className="m-1 text-gray-400">{track.name}</div>
                 <select
                   className="p-4 bg-gray-900 rounded-sm hover:cursor-pointer"
-                  value={track.stems.find((s) => s.active)?.id}
+                  value={track.stemRefs.find((s) => s.active)?.stemId}
                   onChange={(ev) => {
                     setActiveStem(track.id, ev.target.value);
                   }}
                 >
-                  {track.stems.map((stem) => (
+                  {track.stemRefs.map((stemRef) => (
                     <option
                       className="hover:cursor-pointer"
-                      value={stem.id}
-                      key={stem.id}
+                      value={stemRef.stemId}
+                      key={stemRef.stemId}
                     >
-                      {stem.id}
+                      {stemRef.stemId}
                     </option>
                   ))}
                 </select>
@@ -52,11 +52,14 @@ export default function TrackView({
               <Fragment key={track.id}>
                 {weatherData && <WeatherInfo data={weatherData[track.id]} />}
                 <span className="text-center text-gray-400">{track.name}</span>
-                {track.stems.map(
-                  (stem) =>
-                    stem.active && (
-                      <span key={stem.id} className="text-right text-gray-600">
-                        {stem.id}
+                {track.stemRefs.map(
+                  (stemRef) =>
+                    stemRef.active && (
+                      <span
+                        key={stemRef.stemId}
+                        className="text-right text-gray-600"
+                      >
+                        {stemRef.stemId}
                       </span>
                     )
                 )}

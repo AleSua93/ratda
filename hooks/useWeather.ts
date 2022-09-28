@@ -9,6 +9,7 @@ export default function useWeather() {
     async () => {
       const response = await fetch("/api/weather");
       const data = await response.json();
+
       return data;
     },
     { refetchInterval: REFETCH_INTERVAL_MS, refetchIntervalInBackground: true }
