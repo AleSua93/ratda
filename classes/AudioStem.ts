@@ -24,7 +24,8 @@ export default class AudioStem {
     this.audioElement = audio;
     this.audioNode = audioContext.createMediaElementSource(audio);
     this.gainNode = new GainNode(audioContext);
-    this.gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+    // todo fix fade in/out
+    // this.gainNode.gain.setValueAtTime(0, audioContext.currentTime);
 
     this.audioElement.loop = true;
     this.audioNode.connect(this.gainNode).connect(audioContext.destination);
@@ -35,13 +36,13 @@ export default class AudioStem {
       return;
     }
     console.log("* playing ", this.name);
-    const now = this.audioContext.currentTime;
 
-    this.gainNode.gain.value = MIN_GAIN;
-    this.gainNode.gain.exponentialRampToValueAtTime(
-      MAX_GAIN,
-      now + FADE_TIME_SECONDS
-    );
+    // const now = this.audioContext.currentTime;
+    // this.gainNode.gain.value = MIN_GAIN;
+    // this.gainNode.gain.exponentialRampToValueAtTime(
+    //   MAX_GAIN,
+    //   now + FADE_TIME_SECONDS
+    // );
     this.audioElement.play();
   }
 
@@ -51,19 +52,7 @@ export default class AudioStem {
     }
     console.log("- pausing ", this.name);
 
-    const now = this.audioContext.currentTime;
-
-    this.gainNode.gain.setValueAtTime(MAX_GAIN, now);
-    this.gainNode.gain.exponentialRampToValueAtTime(
-      MIN_GAIN,
-      now + FADE_TIME_SECONDS
-    );
-
     this.audioElement.pause();
-
-    // setTimeout(() => {
-    //   this.audioElement.pause();
-    // }, FADE_TIME_SECONDS * 1000);
   }
 
   isPlaying() {
