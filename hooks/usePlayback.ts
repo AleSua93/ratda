@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ApiWeatherResult } from "../pages/api/weather";
 import { useTracks } from "./useTracks";
 
@@ -12,7 +12,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
   } = useTracks(audioContext);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const pauseAllStems = () => {
+  const pauseAllStems = useCallback(() => {
     for (const track of tracks) {
       for (const stemRef of track.stemRefs) {
         const stem = stems.get(stemRef.stemId);
@@ -22,7 +22,43 @@ export default function usePlayback(audioContext: AudioContext | null) {
         stem.pause();
       }
     }
-  };
+  }, [tracks, stems]);
+
+  const setActiveStem = useCallback(
+    (trackId: string, stemId: string) => {
+      setTracks((curr) => {
+        return curr.map((t) => {
+          if (t.id === trackId) {
+            t.stemRefs.forEach((s) => {
+              s.active = s.stemId === stemId;
+            });
+          }
+
+          return t;
+        });
+      });
+    },
+    [setTracks]
+  );
+
+  const setActiveStems = useCallback(
+    (weatherData: ApiWeatherResult) => {
+      setTracks((curr) => {
+        return curr.map((t) => {
+          return {
+            ...t,
+            stemRefs: t.stemRefs.map((ref) => {
+              return {
+                ...ref,
+                active: weatherData[t.id].stemId === ref.stemId,
+              };
+            }),
+          };
+        });
+      });
+    },
+    [setTracks]
+  );
 
   useEffect(() => {
     if (!weatherData) {
@@ -30,43 +66,9 @@ export default function usePlayback(audioContext: AudioContext | null) {
     }
 
     setActiveStems(weatherData);
-  }, [weatherData]);
+  }, [weatherData, setActiveStems]);
 
-  const setActiveStem = (trackId: string, stemId: string) => {
-    setTracks(
-      tracks.map((t) => {
-        if (t.id === trackId) {
-          t.stemRefs.forEach((s) => {
-            s.active = s.stemId === stemId;
-          });
-        }
-
-        return t;
-      })
-    );
-  };
-
-  const setActiveStems = (weatherData: ApiWeatherResult) => {
-    setTracks((curr) => {
-      return curr.map((t) => {
-        return {
-          ...t,
-          stems: t.stemRefs.map((s) => {
-            return {
-              ...s,
-              active: false,
-            };
-          }),
-        };
-      });
-    });
-
-    tracks.forEach((t) => {
-      setActiveStem(t.id, weatherData[t.id].stemId);
-    });
-  };
-
-  const playActiveStems = () => {
+  const playActiveStems = useCallback(() => {
     for (const track of tracks) {
       for (const stemRef of track.stemRefs) {
         const stem = stems.get(stemRef.stemId);
@@ -77,7 +79,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
         stemRef.active ? stem.play() : stem.pause();
       }
     }
-  };
+  }, [tracks, stems]);
 
   useEffect(() => {
     if (isPlaying) {
@@ -85,7 +87,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
     } else {
       pauseAllStems();
     }
-  }, [isPlaying, tracks]);
+  }, [isPlaying, playActiveStems, pauseAllStems]);
 
   const handlePlay = () => {
     if (audioContext?.state === "suspended") {

@@ -43,14 +43,14 @@ const Home: NextPage = () => {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full text-lg">
       {isDebugMode && <DebugTable tracks={tracks} />}
       <TrackView
         tracks={tracks}
         setActiveStem={setActiveStem}
         weatherData={weatherData}
       />
-      <div className="flex border-t-2 border-gray-700 bg-gray-900 gap-4 justify-center z-10">
+      <div className="flex border-t border-t-gray-900 bg-black gap-4 justify-center z-10">
         <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
     </div>
