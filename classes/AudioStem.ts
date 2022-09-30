@@ -28,6 +28,7 @@ export default class AudioStem {
     // this.gainNode.gain.setValueAtTime(0, audioContext.currentTime);
 
     this.audioElement.loop = true;
+    this.audioContext;
     this.audioNode.connect(this.gainNode).connect(audioContext.destination);
   }
 

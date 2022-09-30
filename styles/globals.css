@@ -15,41 +15,9 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-    height: 100vh;
-    width: 100vw;
-  }
-}
-
 #__next {
   height: 100vh;
   width: 100vw;
-}
-
-@keyframes animatedBackground {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 100% 0;
-  }
-}
-#animated-background {
-  background-image: url('/background_2.jpg');
-  opacity: 0.3;
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  background-repeat: repeat-x;
-  animation: animatedBackground 120s linear infinite alternate;
-  z-index: -1;
 }
 
 @tailwind base;
