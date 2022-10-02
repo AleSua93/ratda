@@ -42,6 +42,8 @@ export function useTracks(audioContext: AudioContext | null) {
     {
       enabled: !!audioFilesDownloadUrl && !!weatherData,
       async onSuccess(data) {
+        console.log("configuring files");
+
         if (!weatherData) {
           throw Error("Weather data not present for some reason");
         }
@@ -50,6 +52,9 @@ export function useTracks(audioContext: AudioContext | null) {
 
         setTracks(tracks);
       },
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
     }
   );
 
