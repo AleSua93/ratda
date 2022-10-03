@@ -18,7 +18,7 @@ export default function TrackView({
   const { isDebugMode } = useDebugMode();
 
   return (
-    <div className="flex flex-col p-4 w-full md:w-4/5 h-full self-center justify-center">
+    <div className="flex flex-col p-4 w-full md:w-4/5 self-center">
       <div className="grid grid-cols-3 gap-8">
         {isDebugMode ? (
           <>

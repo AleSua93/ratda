@@ -40,13 +40,15 @@ const Home: NextPage = () => {
 
   return (
     <div className="flex flex-col h-full text-lg">
-      {isDebugMode && <DebugTable tracks={tracks} />}
-      {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
-      <TrackView
-        tracks={tracks}
-        setActiveStem={setActiveStem}
-        weatherData={weatherData}
-      />
+      <div className="h-full flex flex-col justify-evenly">
+        {isDebugMode && <DebugTable tracks={tracks} />}
+        {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
+        <TrackView
+          tracks={tracks}
+          setActiveStem={setActiveStem}
+          weatherData={weatherData}
+        />
+      </div>
       <div className="flex border-t border-t-gray-900 bg-black gap-4 justify-center z-10">
         <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
