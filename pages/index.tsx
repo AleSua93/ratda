@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
+import AudioVisualizer from "../components/AudioVisualizer";
 import Controls from "../components/Controls";
 import DebugTable from "../components/DebugTable";
 import Spinner from "../components/Spinner";
@@ -10,7 +11,6 @@ import usePlayback from "../hooks/usePlayback";
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const {
     tracks,
     setActiveStem,
@@ -18,15 +18,11 @@ const Home: NextPage = () => {
     handlePause,
     isLoadingFiles,
     weatherData,
-  } = usePlayback(audioContext);
+    analyser,
+    isPlaying,
+  } = usePlayback();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!audioContext) {
-      setAudioContext(new AudioContext());
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const canvasRef = useRef();
 
   useEffect(() => {
     if (router.query.debug === "true") {
@@ -45,6 +41,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-full text-lg">
       {isDebugMode && <DebugTable tracks={tracks} />}
+      {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
       <TrackView
         tracks={tracks}
         setActiveStem={setActiveStem}

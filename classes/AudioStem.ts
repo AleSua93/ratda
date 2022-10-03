@@ -6,6 +6,7 @@ interface AudioStemParams {
   audioContext: AudioContext;
   audio: HTMLAudioElement;
   name: string;
+  destinationNode?: AudioNode;
   trackId: string;
 }
 
@@ -17,19 +18,27 @@ export default class AudioStem {
   audioNode: MediaElementAudioSourceNode;
   gainNode: GainNode;
 
-  constructor({ audioContext, audio, name, trackId }: AudioStemParams) {
+  constructor({
+    audioContext,
+    audio,
+    name,
+    trackId,
+    destinationNode,
+  }: AudioStemParams) {
     this.name = name;
     this.trackId = trackId;
     this.audioContext = audioContext;
     this.audioElement = audio;
     this.audioNode = audioContext.createMediaElementSource(audio);
     this.gainNode = new GainNode(audioContext);
+
     // todo fix fade in/out
     // this.gainNode.gain.setValueAtTime(0, audioContext.currentTime);
 
     this.audioElement.loop = true;
-    this.audioContext;
-    this.audioNode.connect(this.gainNode).connect(audioContext.destination);
+
+    this.audioNode.connect(this.gainNode);
+    this.gainNode.connect(destinationNode ?? audioContext.destination);
   }
 
   play() {
