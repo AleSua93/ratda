@@ -14,7 +14,7 @@ export default function AudioVisualizer({ analyser, play }: Props) {
     if (play) {
       setRafId(requestAnimationFrame(animate));
     } else {
-      cancelAnimationFrame(rafId);
+      stopAnimation();
     }
   }, [play]);
 
@@ -50,6 +50,23 @@ export default function AudioVisualizer({ analyser, play }: Props) {
     }
 
     setRafId(requestAnimationFrame(animate));
+  };
+
+  const stopAnimation = () => {
+    if (!canvasRef.current) {
+      return;
+    }
+
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) {
+      return;
+    }
+
+    ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
+
+    setTimeout(() => {
+      cancelAnimationFrame(rafId);
+    }, 1000);
   };
 
   return <canvas ref={canvasRef} width="1024" height="260"></canvas>;
