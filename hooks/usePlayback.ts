@@ -1,14 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
 import { ApiWeatherResult } from "../pages/api/weather";
+import useAudioContext from "./useAudioContext";
 import { useTracks } from "./useTracks";
 
-export default function usePlayback(audioContext: AudioContext | null) {
+export default function usePlayback() {
+  const audioContext = useAudioContext();
   const {
     tracks,
     stems,
     setTracks,
     isLoading: isLoadingFiles,
     weatherData,
+    analyser,
   } = useTracks(audioContext);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -81,19 +84,12 @@ export default function usePlayback(audioContext: AudioContext | null) {
     }
   }, [tracks, stems]);
 
-  useEffect(() => {
-    if (isPlaying) {
-      playActiveStems();
-    } else {
-      pauseAllStems();
-    }
-  }, [isPlaying, playActiveStems, pauseAllStems]);
-
   const handlePlay = () => {
     if (audioContext?.state === "suspended") {
       audioContext.resume();
     }
 
+    playActiveStems();
     setIsPlaying(true);
   };
 
@@ -102,6 +98,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
       audioContext.resume();
     }
 
+    pauseAllStems();
     setIsPlaying(false);
   };
 
@@ -112,5 +109,7 @@ export default function usePlayback(audioContext: AudioContext | null) {
     handlePause,
     isLoadingFiles,
     weatherData,
+    analyser,
+    isPlaying,
   };
 }

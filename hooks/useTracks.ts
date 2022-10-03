@@ -18,6 +18,7 @@ export type AudioTrack = {
 export function useTracks(audioContext: AudioContext | null) {
   const [tracks, setTracks] = useState<AudioTrack[]>([]);
   const stems = useRef<Map<string, AudioStem>>(new Map<string, AudioStem>());
+  const analyser = useRef<AnalyserNode>();
   const { weatherData } = useWeather();
   const [isLoading, setIsLoading] = useState(true);
   const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
@@ -43,6 +44,14 @@ export function useTracks(audioContext: AudioContext | null) {
       enabled: !!audioFilesDownloadUrl && !!weatherData,
       async onSuccess(data) {
         console.log("configuring files");
+
+        // Create and configure audio analyser
+        if (audioContext) {
+          const analyserNode = audioContext.createAnalyser();
+          analyserNode.fftSize = 1024;
+          analyserNode.connect(audioContext.destination);
+          analyser.current = analyserNode;
+        }
 
         if (!weatherData) {
           throw Error("Weather data not present for some reason");
@@ -110,12 +119,17 @@ export function useTracks(audioContext: AudioContext | null) {
         const data = await file.async("blob");
         const audioElement = new Audio(URL.createObjectURL(data));
 
+        if (!analyser.current) {
+          throw new Error("Analyser node not ready");
+        }
+
         stems.current.set(
           stemId,
           new AudioStem({
-            audioContext,
             audio: audioElement,
             name: stemName,
+            audioContext,
+            destinationNode: analyser.current,
             trackId,
           })
         );
@@ -166,5 +180,6 @@ export function useTracks(audioContext: AudioContext | null) {
     setTracks,
     isLoading,
     weatherData,
+    analyser: analyser.current,
   };
 }
