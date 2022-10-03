@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import AudioVisualizer from "../components/AudioVisualizer";
 import Controls from "../components/Controls";
 import DebugTable from "../components/DebugTable";
@@ -22,7 +22,6 @@ const Home: NextPage = () => {
     isPlaying,
   } = usePlayback();
   const router = useRouter();
-  const canvasRef = useRef();
 
   useEffect(() => {
     if (router.query.debug === "true") {
