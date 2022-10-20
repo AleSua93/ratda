@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import AudioVisualizer from "../components/AudioVisualizer";
 import Controls from "../components/Controls";
 import DebugTable from "../components/DebugTable";
+import InformationPopup from "../components/InformationPopup";
 import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
 import { useDebugMode } from "../context/debug-context";
@@ -40,6 +41,9 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-full text-lg">
       <div className="h-full flex flex-col justify-evenly">
+        <div className="absolute top-8 right-8">
+          <InformationPopup />
+        </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
         {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
         <TrackView
