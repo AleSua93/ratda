@@ -67,31 +67,21 @@ export function useTracks(audioContext: AudioContext | null) {
     }
   );
 
-  const setActiveStem = (
-    audioTracks: AudioTrack[],
-    trackId: string,
-    stemId: string
-  ) => {
-    return audioTracks.map((t) => {
-      if (t.id === trackId) {
-        t.stemRefs.forEach((s) => {
-          s.active = s.stemId === stemId;
-        });
-      }
-
-      return t;
-    });
-  };
-
-  const setActiveStems = (
+  const setInitialActiveStems = (
     audioTracks: AudioTrack[],
     weatherData: ApiWeatherResult
   ) => {
-    audioTracks.forEach((t) => {
-      setActiveStem(audioTracks, t.id, weatherData[t.id].stemId);
+    return audioTracks.map((t) => {
+      return {
+        ...t,
+        stemRefs: t.stemRefs.map((s) => {
+          return {
+            ...s,
+            active: s.stemId === weatherData[t.id].stemId,
+          };
+        }),
+      };
     });
-
-    return audioTracks;
   };
 
   const parseDownloadedFiles = useCallback(
@@ -166,7 +156,10 @@ export function useTracks(audioContext: AudioContext | null) {
     let tracks: AudioTrack[] = [];
     return await newZip.loadAsync(audioFiles).then(async (zip) => {
       const { audioTracks } = await parseDownloadedFiles(zip.files);
-      const tracksWithActiveStems = setActiveStems(audioTracks, weatherData);
+      const tracksWithActiveStems = setInitialActiveStems(
+        audioTracks,
+        weatherData
+      );
 
       tracks = tracksWithActiveStems;
 
