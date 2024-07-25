@@ -1,4 +1,4 @@
-import { InformationCircleIcon, XIcon } from "@heroicons/react/solid";
+import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import ReactModal from "react-modal";
 
@@ -13,7 +13,7 @@ export default function InformationPopup() {
           setIsOpen(true);
         }}
       >
-        <InformationCircleIcon className="text-gray-500 hover:text-white hover:cursor-pointer h-8 w-8" />
+        <InformationCircleIcon className="text-gray-800 hover:text-gray-500 hover:cursor-pointer h-8 w-8" />
       </button>
       <ReactModal
         isOpen={isOpen}
@@ -23,7 +23,7 @@ export default function InformationPopup() {
             height: "fit-content",
             margin: "auto",
             borderRadius: "5px",
-            background: "black",
+            background: "white",
           },
           overlay: {
             background: "rgba(0, 0, 0, 0.5)",
@@ -32,7 +32,7 @@ export default function InformationPopup() {
         }}
         contentLabel="Example Modal"
       >
-        <div className="flex flex-col gap-4 text-gray-300">
+        <div className="flex flex-col gap-4 text-gray-800">
           <div className="flex self-end">
             {/* todo add language selector */}
             <button
@@ -41,7 +41,7 @@ export default function InformationPopup() {
                 setIsOpen(false);
               }}
             >
-              <XIcon className="h-8" />
+              <XMarkIcon className="h-8" />
             </button>
           </div>
           <p>

@@ -26,7 +26,7 @@ export default function TrackView({
               <div key={track.id} className="flex flex-col w-full gap-2">
                 <div className="m-1 text-gray-400">{track.name}</div>
                 <select
-                  className="p-4 bg-gray-900 rounded-sm hover:cursor-pointer"
+                  className="p-4 rounded-sm hover:cursor-pointer"
                   value={track.stemRefs.find((s) => s.active)?.stemId}
                   onChange={(ev) => {
                     setActiveStem(track.id, ev.target.value);

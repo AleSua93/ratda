@@ -9,6 +9,8 @@ import Spinner from "../components/Spinner";
 import TrackView from "../components/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
+import Image from "next/image";
+import AnimationDisplay from "../components/AnimationDisplay";
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();
@@ -30,13 +32,13 @@ const Home: NextPage = () => {
     }
   }, [router, setIsDebugMode]);
 
-  if (isLoadingFiles) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Spinner className="text-gray-500 h-8 w-8" />
-      </div>
-    );
-  }
+  // if (isLoadingFiles) {
+  //   return (
+  //     <div className="flex h-full items-center justify-center">
+  //       <Spinner className="text-gray-500 h-8 w-8" />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="flex flex-col h-full text-lg">
@@ -45,14 +47,15 @@ const Home: NextPage = () => {
           <InformationPopup />
         </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
-        {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
+        {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
+        <AnimationDisplay />
         <TrackView
           tracks={tracks}
           setActiveStem={setActiveStem}
           weatherData={weatherData}
         />
       </div>
-      <div className="flex border-t border-t-gray-900 bg-black gap-4 justify-center z-10">
+      <div className="flex border-t border-t-gray-900 gap-4 justify-center z-10">
         <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
     </div>

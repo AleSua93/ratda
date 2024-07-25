@@ -5,16 +5,17 @@ const REFETCH_INTERVAL_MS =
   process.env.NODE_ENV === "production" ? 10000 : 2000;
 
 export default function useWeather() {
-  const { data: weatherData, isLoading } = useQuery<ApiWeatherResult>(
-    ["weather-result"],
-    async () => {
+  const { data: weatherData, isLoading } = useQuery<ApiWeatherResult>({
+    queryKey: ["weather-result"],
+    queryFn: async () => {
       const response = await fetch("/api/weather");
       const data = await response.json();
 
       return data;
     },
-    { refetchInterval: REFETCH_INTERVAL_MS, refetchIntervalInBackground: true }
-  );
+    refetchInterval: REFETCH_INTERVAL_MS,
+    refetchIntervalInBackground: true,
+  });
 
   return { weatherData, isLoading };
 }

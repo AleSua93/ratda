@@ -1,4 +1,4 @@
-import { PlayIcon, StopIcon } from "@heroicons/react/solid";
+import { PlayIcon, StopIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 
 interface Props {
