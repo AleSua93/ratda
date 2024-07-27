@@ -21,7 +21,7 @@ export default function Controls({ onPlay, onPause }: Props) {
           onPlay();
         }}
       >
-        <PlayIcon className="h-16 text-gray-300" />
+        <PlayIcon className="h-16 text-gray-800" />
       </button>
       <button
         type="button"
@@ -34,7 +34,7 @@ export default function Controls({ onPlay, onPause }: Props) {
           onPause();
         }}
       >
-        <StopIcon className="h-16 text-gray-300" />
+        <StopIcon className="h-16 text-gray-800" />
       </button>
     </>
   );
