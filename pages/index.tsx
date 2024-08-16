@@ -41,22 +41,23 @@ const Home: NextPage = () => {
   // }
 
   return (
-    <div className="flex flex-col h-full text-lg">
-      <div className="h-full flex flex-col justify-evenly">
-        <div className="absolute top-8 right-8">
+    <div className="flex flex-col h-screen text-lg">
+      <div className="h-full flex flex-col">
+        <div className="absolute top-8 right-8 z-50">
           <InformationPopup />
         </div>
+        <div className="text-center opacity-85 text-9xl">RATDA</div>
         {isDebugMode && <DebugTable tracks={tracks} />}
         {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
         <AnimationDisplay />
+      </div>
+      <div className="flex items-center flex-col p-4 border-t border-t-gray-900 gap-4 justify-center z-10">
+        <Controls onPause={handlePause} onPlay={handlePlay} />
         <TrackView
           tracks={tracks}
           setActiveStem={setActiveStem}
           weatherData={weatherData}
         />
-      </div>
-      <div className="flex border-t border-t-gray-900 gap-4 justify-center z-10">
-        <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
     </div>
   );

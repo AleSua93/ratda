@@ -9,7 +9,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="h-full bg-gray-200 w-full font-display">
+      <body className="h-full bg-zinc-200 w-full font-display">
         <Main />
         <NextScript />
       </body>

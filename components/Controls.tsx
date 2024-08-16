@@ -9,12 +9,12 @@ interface Props {
 export default function Controls({ onPlay, onPause }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
   return (
-    <>
+    <div className="self-center flex gap-4">
       <button
         type="button"
         className={`${
           isPlaying ? "opacity-20" : ""
-        } text-black p-2 rounded-md hover:pointer`}
+        } text-black rounded-md hover:pointer`}
         disabled={isPlaying}
         onClick={() => {
           setIsPlaying(true);
@@ -27,7 +27,7 @@ export default function Controls({ onPlay, onPause }: Props) {
         type="button"
         className={`${
           !isPlaying ? "opacity-20" : ""
-        } text-black p-2 rounded-md hover:pointer `}
+        } text-black rounded-md hover:pointer `}
         disabled={!isPlaying}
         onClick={() => {
           setIsPlaying(false);
@@ -36,6 +36,6 @@ export default function Controls({ onPlay, onPause }: Props) {
       >
         <StopIcon className="h-16 text-gray-800" />
       </button>
-    </>
+    </div>
   );
 }
