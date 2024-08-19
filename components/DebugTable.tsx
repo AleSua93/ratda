@@ -6,7 +6,7 @@ interface Props {
 
 export default function DebugTable({ tracks }: Props) {
   return (
-    <div className="overflow-scroll bg-gray-700 bg-opacity-50">
+    <div className="overflow-scroll bg-zinc-700 bg-opacity-50">
       <table className="text-left text-sm border-separate border-spacing-x-8">
         <thead>
           <tr>

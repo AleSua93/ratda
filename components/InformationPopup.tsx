@@ -1,4 +1,4 @@
-import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import ReactModal from "react-modal";
 
@@ -13,7 +13,7 @@ export default function InformationPopup() {
           setIsOpen(true);
         }}
       >
-        <InformationCircleIcon className="text-gray-800 hover:text-gray-500 hover:cursor-pointer h-8 w-8" />
+        <InformationCircleIcon className="text-zinc-800 hover:text-black hover:cursor-pointer h-8 w-8" />
       </button>
       <ReactModal
         isOpen={isOpen}
@@ -28,11 +28,12 @@ export default function InformationPopup() {
           overlay: {
             background: "rgba(0, 0, 0, 0.5)",
             opacity: "1",
+            zIndex: 1000,
           },
         }}
-        contentLabel="Example Modal"
+        contentLabel="Info Modal"
       >
-        <div className="flex flex-col gap-4 text-gray-800">
+        <div className="flex flex-col gap-4 text-zinc-800">
           <div className="flex self-end">
             {/* todo add language selector */}
             <button
@@ -44,7 +45,7 @@ export default function InformationPopup() {
               <XMarkIcon className="h-8" />
             </button>
           </div>
-          <p>
+          <div>
             Recomposición a través de algoritmos es un proyecto de música y
             nuevas tecnologías que consta de un dispositivo
             artístico-tecnológico capaz de producir música de manera continua a
@@ -52,7 +53,7 @@ export default function InformationPopup() {
             procesamientos, funcionan como capas o células sonoras que el
             dispositivo utiliza para generar diferentes combinaciones del
             material.
-          </p>
+          </div>
           <p>
             Este dispositivo se encuentra a su vez sujeto a parámetros
             pre-estipulados que guardan relación con el comportamiento en tiempo

@@ -6,7 +6,7 @@ import Controls from "../components/Controls";
 import DebugTable from "../components/DebugTable";
 import InformationPopup from "../components/InformationPopup";
 import Spinner from "../components/Spinner";
-import TrackView from "../components/TrackView";
+import TrackView from "../components/tracks/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
 import Image from "next/image";
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
   // if (isLoadingFiles) {
   //   return (
   //     <div className="flex h-full items-center justify-center">
-  //       <Spinner className="text-gray-500 h-8 w-8" />
+  //       <Spinner className="text-zinc-500 h-8 w-8" />
   //     </div>
   //   );
   // }

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Humedad from "./humedad/Humedad";
 import Temperatura from "./temperatura/Temperatura";
 import Presion from "./presion/Presion";

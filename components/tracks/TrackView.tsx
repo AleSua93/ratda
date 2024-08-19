@@ -1,8 +1,8 @@
 import { Fragment, useState } from "react";
-import { useDebugMode } from "../context/debug-context";
-import { AudioTrack } from "../hooks/useTracks";
-import { ApiWeatherResult } from "../pages/api/weather";
-import WeatherInfo from "./WeatherInfo";
+import { useDebugMode } from "../../context/debug-context";
+import { AudioTrack } from "../../hooks/useTracks";
+import { ApiWeatherResult } from "../../pages/api/weather";
+import WeatherInfo from "../WeatherInfo";
 import { clsx } from "clsx";
 
 interface Props {
@@ -34,7 +34,7 @@ export default function TrackView({
             setIsExpanded(!isExpanded);
           }}
           className={clsx(
-            "flex gap-2 items-center text-2xl",
+            "flex gap-2 items-center text-2xl font-bold",
             isHoveringButton && "underline"
           )}
         >
@@ -42,7 +42,7 @@ export default function TrackView({
           <span
             className={clsx(
               "rounded-full text-sm px-3 py-1 border-gray-800 border-2",
-              isHoveringButton ? "bg-gray-100" : "bg-gray-200"
+              isHoveringButton ? "bg-zinc-100" : "bg-zinc-200"
             )}
           >
             {isExpanded ? "↑" : "↓"}
@@ -50,12 +50,12 @@ export default function TrackView({
         </button>
       </div>
       {isExpanded && (
-        <div className="grid grid-cols-3 gap-8">
+        <div className="grid grid-cols-4 gap-8">
           {isDebugMode ? (
             <>
               {tracks.map((track) => (
                 <div key={track.id} className="flex flex-col w-full gap-2">
-                  <div className="m-1 text-gray-400">{track.name}</div>
+                  <div className="m-1 text-zinc-400">{track.name}</div>
                   <select
                     className="p-4 rounded-sm hover:cursor-pointer"
                     value={track.stemRefs.find((s) => s.active)?.stemId}
@@ -82,20 +82,20 @@ export default function TrackView({
               {tracks.map((track) => (
                 <Fragment key={track.id}>
                   {weatherData && <WeatherInfo data={weatherData[track.id]} />}
-                  <span className="text-center text-gray-400">
+                  {/* <span className="text-center text-zinc-400">
                     {track.name}
-                  </span>
-                  {track.stemRefs.map(
+                  </span> */}
+                  {/* {track.stemRefs.map(
                     (stemRef) =>
                       stemRef.active && (
                         <span
                           key={stemRef.stemId}
-                          className="text-right text-gray-600"
+                          className="text-right text-zinc-600"
                         >
                           {stemRef.stemId}
                         </span>
                       )
-                  )}
+                  )} */}
                 </Fragment>
               ))}
             </>
