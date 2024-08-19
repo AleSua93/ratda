@@ -10,7 +10,7 @@ import TrackView from "../components/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
 import Image from "next/image";
-import AnimationDisplay from "../components/AnimationDisplay";
+import AnimationDisplay from "../components/animated/AnimationDisplay";
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();
