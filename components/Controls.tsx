@@ -1,5 +1,7 @@
-import { PlayIcon, StopIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+import play from "../public/assets/misc/play.jpg";
+import stop from "../public/assets/misc/stop.jpg";
+import Image from "next/image";
 
 interface Props {
   onPlay: () => void;
@@ -19,7 +21,7 @@ export default function Controls({ onPlay, onPause }: Props) {
           onPlay();
         }}
       >
-        <PlayIcon className="h-16 rounded-full border-gray-800 p-2 border-2" />
+        <Image src={play} alt="play" width={96} height={96} />
       </button>
       <button
         type="button"
@@ -32,7 +34,7 @@ export default function Controls({ onPlay, onPause }: Props) {
           onPause();
         }}
       >
-        <StopIcon className="h-16 rounded-full border-gray-800 p-2 border-2" />
+        <Image src={stop} alt="stop" width={96} height={96} />
       </button>
     </div>
   );

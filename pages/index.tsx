@@ -10,6 +10,7 @@ import TrackView from "../components/tracks/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
 import Image from "next/image";
+import titulo from "../public/assets/misc/titulo.png";
 import AnimationDisplay from "../components/animated/AnimationDisplay";
 
 const Home: NextPage = () => {
@@ -46,7 +47,15 @@ const Home: NextPage = () => {
         <div className="absolute top-8 right-8 z-50">
           <InformationPopup />
         </div>
-        <div className="text-center opacity-85 text-9xl">RATDA</div>
+        <div className="self-center">
+          {/* RATDA */}
+          <Image
+            height={200}
+            src={titulo}
+            alt="RATDA"
+            className="self-center"
+          />
+        </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
         {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
         <AnimationDisplay />

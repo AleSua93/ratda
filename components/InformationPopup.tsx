@@ -1,6 +1,8 @@
-import { InformationCircleIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import { useState } from "react";
 import ReactModal from "react-modal";
+import info from "../public/assets/misc/info.jpg";
 
 export default function InformationPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +15,13 @@ export default function InformationPopup() {
           setIsOpen(true);
         }}
       >
-        <InformationCircleIcon className="text-zinc-800 hover:text-black hover:cursor-pointer h-8 w-8" />
+        <Image
+          src={info}
+          alt="info"
+          width={36}
+          height={36}
+          className="hover:opacity-60"
+        />
       </button>
       <ReactModal
         isOpen={isOpen}
@@ -42,7 +50,7 @@ export default function InformationPopup() {
                 setIsOpen(false);
               }}
             >
-              <XMarkIcon className="h-8" />
+              <XMarkIcon className="h-8 hover:opacity-60" />
             </button>
           </div>
           <div>

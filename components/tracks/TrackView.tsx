@@ -4,6 +4,9 @@ import { AudioTrack } from "../../hooks/useTracks";
 import { ApiWeatherResult } from "../../pages/api/weather";
 import WeatherInfo from "../WeatherInfo";
 import { clsx } from "clsx";
+import Image from "next/image";
+import arrow_down from "../../public/assets/misc/arrow down.jpg";
+import arrow_up from "../../public/assets/misc/arrow up.jpg";
 
 interface Props {
   tracks: AudioTrack[];
@@ -39,13 +42,12 @@ export default function TrackView({
           )}
         >
           {isExpanded ? "Esconder" : "Mostrar"} emociones{" "}
-          <span
-            className={clsx(
-              "rounded-full text-sm px-3 py-1 border-gray-800 border-2",
-              isHoveringButton ? "bg-zinc-100" : "bg-zinc-200"
+          <span>
+            {isExpanded ? (
+              <Image src={arrow_up} alt="arrow up" width={30} height={30} />
+            ) : (
+              <Image src={arrow_down} alt="arrow down" width={30} height={30} />
             )}
-          >
-            {isExpanded ? "↑" : "↓"}
           </span>
         </button>
       </div>
