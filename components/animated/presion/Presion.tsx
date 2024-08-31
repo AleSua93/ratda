@@ -5,8 +5,13 @@ import presión_f2_v4 from "../../../public/assets/presion/presión_f2_v4.png";
 import presión_f2_v1 from "../../../public/assets/presion/presión_f2_v1.png";
 import presión_f2_v2 from "../../../public/assets/presion/presión_f2_v2.png";
 import presión_f2_v3 from "../../../public/assets/presion/presión_f2_v3.png";
+import { ApiWeatherData } from "../../../pages/api/weather";
 
-export default function Presion() {
+export default function Presion({
+  pressureInfo,
+}: {
+  pressureInfo?: ApiWeatherData;
+}) {
   return (
     <>
       {/* Grietas */}

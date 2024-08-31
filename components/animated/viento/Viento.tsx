@@ -1,8 +1,9 @@
 import Image from "next/image";
 import viento_f1_v1 from "../../../public/assets/viento/viento_f1_v1.png";
 import viento_f2_v3 from "../../../public/assets/viento/viento_f2_v3.gif";
+import { ApiWeatherData } from "../../../pages/api/weather";
 
-export default function Viento() {
+export default function Viento({ windInfo }: { windInfo?: ApiWeatherData }) {
   return (
     <>
       <Image

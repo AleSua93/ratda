@@ -4,8 +4,13 @@ import humedad_f1_v1 from "../../../public/assets/humedad/humedad_f1_v1.png";
 import humedad_f2_v2 from "../../../public/assets/humedad/humedad_f2_v2.png";
 import humedad_f2_v3 from "../../../public/assets/humedad/humedad_f2_v3.png";
 import humedad_f2_v4 from "../../../public/assets/humedad/humedad_f2_v4.png";
+import { ApiWeatherData, ApiWeatherResult } from "../../../pages/api/weather";
 
-export default function Humedad() {
+export default function Humedad({
+  humidityInfo,
+}: {
+  humidityInfo?: ApiWeatherData;
+}) {
   return (
     <>
       {/* Foquito */}

@@ -58,7 +58,7 @@ const Home: NextPage = () => {
         </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
         {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
-        <AnimationDisplay />
+        <AnimationDisplay weatherData={weatherData} />
       </div>
       <div className="flex items-center flex-col p-4 border-t border-t-gray-900 gap-4 justify-center z-10">
         <Controls onPause={handlePause} onPlay={handlePlay} />
