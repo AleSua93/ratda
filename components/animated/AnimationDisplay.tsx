@@ -13,10 +13,10 @@ export default function AnimationDisplay({
 
   return (
     <div className="relative overflow-clip w-full h-full">
-      {/* <Presion pressureInfo={weatherData?.melodia} /> */}
+      <Presion pressureInfo={weatherData?.melodia} />
       <Temperatura temperatureInfo={weatherData?.bajo} />
-      {/* <Humedad humidityInfo={weatherData?.sosten} />
-      <Viento windInfo={weatherData?.contramelodia} /> */}
+      <Humedad humidityInfo={weatherData?.sosten} />
+      <Viento windInfo={weatherData?.contramelodia} />
     </div>
   );
 }

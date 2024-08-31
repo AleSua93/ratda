@@ -48,6 +48,7 @@ export default function Temperatura({
           src={doorImage}
           alt={doorImage.src}
           className="absolute z-[-1] left-[170px] top-[-5px] scale-[130%]"
+          unoptimized
         />
       </>
       <>
@@ -60,6 +61,7 @@ export default function Temperatura({
             filter:
               "drop-shadow(2px 0 0 black) drop-shadow(0 2px 0 black) drop-shadow(0 0 1px black)",
           }}
+          unoptimized
         />
       </>
     </>
