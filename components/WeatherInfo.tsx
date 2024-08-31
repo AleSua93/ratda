@@ -26,7 +26,7 @@ export default function WeatherInfo({ data }: Props) {
   const Icon = getWeatherIcon(data.parameter);
 
   return (
-    <div className="flex flex-row text-gray-500">
+    <div className="flex flex-row text-zinc-600 font-bold text-2xl justify-center items-center">
       <Icon className="h-6 w-6 mr-2" />
       <span>{data.value}</span> <span>{data.unit}</span>
     </div>

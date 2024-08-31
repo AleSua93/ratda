@@ -6,9 +6,12 @@ import Controls from "../components/Controls";
 import DebugTable from "../components/DebugTable";
 import InformationPopup from "../components/InformationPopup";
 import Spinner from "../components/Spinner";
-import TrackView from "../components/TrackView";
+import TrackView from "../components/tracks/TrackView";
 import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
+import Image from "next/image";
+import titulo from "../public/assets/misc/titulo.png";
+import AnimationDisplay from "../components/animated/AnimationDisplay";
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();
@@ -30,30 +33,40 @@ const Home: NextPage = () => {
     }
   }, [router, setIsDebugMode]);
 
-  if (isLoadingFiles) {
-    return (
-      <div className="flex h-full items-center justify-center">
-        <Spinner className="text-gray-500 h-8 w-8" />
-      </div>
-    );
-  }
+  // if (isLoadingFiles) {
+  //   return (
+  //     <div className="flex h-full items-center justify-center">
+  //       <Spinner className="text-zinc-500 h-8 w-8" />
+  //     </div>
+  //   );
+  // }
 
   return (
-    <div className="flex flex-col h-full text-lg">
-      <div className="h-full flex flex-col justify-evenly">
-        <div className="absolute top-8 right-8">
+    <div className="flex flex-col h-screen text-lg">
+      <div className="h-full flex flex-col">
+        <div className="absolute top-8 right-8 z-50">
           <InformationPopup />
         </div>
+        <div className="self-center">
+          {/* RATDA */}
+          <Image
+            height={200}
+            src={titulo}
+            alt="RATDA"
+            className="self-center"
+          />
+        </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
-        {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />}
+        {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
+        <AnimationDisplay weatherData={weatherData} />
+      </div>
+      <div className="flex items-center flex-col p-4 border-t border-t-gray-900 gap-4 justify-center z-10">
+        <Controls onPause={handlePause} onPlay={handlePlay} />
         <TrackView
           tracks={tracks}
           setActiveStem={setActiveStem}
           weatherData={weatherData}
         />
-      </div>
-      <div className="flex border-t border-t-gray-900 bg-black gap-4 justify-center z-10">
-        <Controls onPause={handlePause} onPlay={handlePlay} />
       </div>
     </div>
   );

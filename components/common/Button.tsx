@@ -18,7 +18,7 @@ export default function Button({
   return (
     <button
       onClick={onClick}
-      className={`bg-gray-200 text-gray-200 bg-opacity-0 p-2 rounded-md border border-white max-w-fit hover:bg-opacity-25 ${
+      className={`bg-zinc-200 text-zinc-200 bg-opacity-0 p-2 rounded-md border border-white max-w-fit hover:bg-opacity-25 ${
         className && className
       }`}
     >

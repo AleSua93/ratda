@@ -21,51 +21,52 @@ export function useTracks(audioContext: AudioContext | null) {
   const analyser = useRef<AnalyserNode>();
   const { weatherData } = useWeather();
   const [isLoading, setIsLoading] = useState(true);
-  const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>(
-    ["audio-files-dl-url"],
-    async () => {
+  const { data: audioFilesDownloadUrl } = useQuery<AudioFilesDownloadUrl>({
+    queryKey: ["audio-files-dl-url"],
+    queryFn: async () => {
       const response = await fetch("/api/audio-files");
       const data = await response.json();
       return data;
     },
-    { enabled: audioContext !== null }
-  );
+    enabled: audioContext !== null,
+  });
 
-  const { data: audioFiles } = useQuery<any>(
-    ["downloaded-audio-files"],
-    async () => {
+  const configureFiles = async (data: any) => {
+    console.log("configuring files");
+
+    // Create and configure audio analyser
+    if (audioContext) {
+      const analyserNode = audioContext.createAnalyser();
+      analyserNode.fftSize = 1024;
+      analyserNode.connect(audioContext.destination);
+      analyser.current = analyserNode;
+    }
+
+    if (!weatherData) {
+      throw Error("Weather data not present for some reason");
+    }
+
+    const { tracks } = await unzipAndConfigureTracks(data, weatherData);
+
+    setTracks(tracks);
+  };
+
+  useQuery<any>({
+    queryKey: ["downloaded-audio-files"],
+    queryFn: async () => {
       if (audioFilesDownloadUrl) {
         const response = await fetch(audioFilesDownloadUrl);
         const data = await response.blob();
+        configureFiles(data);
         return data;
       }
     },
-    {
-      enabled: !!audioFilesDownloadUrl && !!weatherData,
-      async onSuccess(data) {
-        console.log("configuring files");
 
-        // Create and configure audio analyser
-        if (audioContext) {
-          const analyserNode = audioContext.createAnalyser();
-          analyserNode.fftSize = 1024;
-          analyserNode.connect(audioContext.destination);
-          analyser.current = analyserNode;
-        }
-
-        if (!weatherData) {
-          throw Error("Weather data not present for some reason");
-        }
-
-        const { tracks } = await unzipAndConfigureTracks(data, weatherData);
-
-        setTracks(tracks);
-      },
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    }
-  );
+    enabled: !!audioFilesDownloadUrl && !!weatherData,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const setInitialActiveStems = (
     audioTracks: AudioTrack[],

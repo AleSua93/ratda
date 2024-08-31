@@ -1,6 +1,8 @@
-import { InformationCircleIcon, XIcon } from "@heroicons/react/solid";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+import Image from "next/image";
 import { useState } from "react";
 import ReactModal from "react-modal";
+import info from "../public/assets/misc/info.jpg";
 
 export default function InformationPopup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +15,13 @@ export default function InformationPopup() {
           setIsOpen(true);
         }}
       >
-        <InformationCircleIcon className="text-gray-500 hover:text-white hover:cursor-pointer h-8 w-8" />
+        <Image
+          src={info}
+          alt="info"
+          width={36}
+          height={36}
+          className="hover:opacity-60"
+        />
       </button>
       <ReactModal
         isOpen={isOpen}
@@ -23,16 +31,17 @@ export default function InformationPopup() {
             height: "fit-content",
             margin: "auto",
             borderRadius: "5px",
-            background: "black",
+            background: "white",
           },
           overlay: {
             background: "rgba(0, 0, 0, 0.5)",
             opacity: "1",
+            zIndex: 1000,
           },
         }}
-        contentLabel="Example Modal"
+        contentLabel="Info Modal"
       >
-        <div className="flex flex-col gap-4 text-gray-300">
+        <div className="flex flex-col gap-4 text-zinc-800">
           <div className="flex self-end">
             {/* todo add language selector */}
             <button
@@ -41,10 +50,10 @@ export default function InformationPopup() {
                 setIsOpen(false);
               }}
             >
-              <XIcon className="h-8" />
+              <XMarkIcon className="h-8 hover:opacity-60" />
             </button>
           </div>
-          <p>
+          <div>
             Recomposición a través de algoritmos es un proyecto de música y
             nuevas tecnologías que consta de un dispositivo
             artístico-tecnológico capaz de producir música de manera continua a
@@ -52,7 +61,7 @@ export default function InformationPopup() {
             procesamientos, funcionan como capas o células sonoras que el
             dispositivo utiliza para generar diferentes combinaciones del
             material.
-          </p>
+          </div>
           <p>
             Este dispositivo se encuentra a su vez sujeto a parámetros
             pre-estipulados que guardan relación con el comportamiento en tiempo
