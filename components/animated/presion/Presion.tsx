@@ -14,10 +14,10 @@ const pressureCrackImages = [
 ];
 
 const pressureBackgroundImages = [
-  { range: { min: -Infinity, max: 1009 }, image: presión_f2_v1 },
-  { range: { min: 1009, max: 1020 }, image: presión_f2_v2 },
-  { range: { min: 1020, max: 1025 }, image: presión_f2_v3 },
-  { range: { min: 1025, max: Infinity }, image: presión_f2_v4 },
+  { range: { min: -Infinity, max: 1009 }, image: presión_f2_v4 },
+  { range: { min: 1009, max: 1020 }, image: presión_f2_v3 },
+  { range: { min: 1020, max: 1025 }, image: presión_f2_v2 },
+  { range: { min: 1025, max: Infinity }, image: presión_f2_v1 },
 ];
 
 export default function Presion({
@@ -26,8 +26,6 @@ export default function Presion({
   pressureInfo?: ApiWeatherData;
 }) {
   const pressureValue = pressureInfo?.value ?? 1019;
-
-  console.log(pressureValue);
 
   const backgroundImage = pressureBackgroundImages.find(
     (i) => i.range.min <= pressureValue && pressureValue < i.range.max
