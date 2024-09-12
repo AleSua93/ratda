@@ -56,7 +56,7 @@ export default function Temperatura({
         <Image
           src={boyImage}
           alt={boyImage.src}
-          className="absolute left-[210px] scale-50"
+          className="absolute left-[210px] top-[25px] scale-50"
           style={{
             filter:
               "drop-shadow(2px 0 0 black) drop-shadow(0 2px 0 black) drop-shadow(0 0 1px black)",

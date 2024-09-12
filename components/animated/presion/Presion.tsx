@@ -49,7 +49,7 @@ export default function Presion({
           <Image
             src={crackImage}
             alt={crackImage.src}
-            className="absolute z-[1] left-[-250px]"
+            className="absolute z-[1] left-[-350px]"
           />
         )}
       </>
