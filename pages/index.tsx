@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         <div className="self-center">
           {/* RATDA */}
           <Image
-            height={200}
+            height={150}
             src={titulo}
             alt="RATDA"
             className="self-center"
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
         {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
         <AnimationDisplay weatherData={weatherData} />
       </div>
-      <div className="flex items-center flex-col p-4 border-t border-t-gray-900 gap-4 justify-center z-10">
+      <div className="flex items-center flex-col p-2 border-t border-t-gray-900 gap-4 justify-center z-10">
         <Controls
           onPause={handlePause}
           onPlay={handlePlay}
