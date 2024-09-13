@@ -29,7 +29,7 @@ export default function Humedad({
         <Image
           src={stainImage}
           alt={stainImage.src}
-          className="absolute z-[2]"
+          className="absolute z-[2] max-h-full top-[47%] left-[50.5%] transform -translate-x-1/2 -translate-y-1/2"
           style={{
             filter:
               "drop-shadow(2px 0 0 gray) drop-shadow(0 2px 0 gray) drop-shadow(0 0 1px gray)",
