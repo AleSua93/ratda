@@ -33,14 +33,6 @@ const Home: NextPage = () => {
     }
   }, [router, setIsDebugMode]);
 
-  // if (isLoadingFiles) {
-  //   return (
-  //     <div className="flex h-full items-center justify-center">
-  //       <Spinner className="text-zinc-500 h-8 w-8" />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="flex flex-col h-screen text-lg">
       <div className="h-full flex flex-col">
@@ -61,7 +53,11 @@ const Home: NextPage = () => {
         <AnimationDisplay weatherData={weatherData} />
       </div>
       <div className="flex items-center flex-col p-4 border-t border-t-gray-900 gap-4 justify-center z-10">
-        <Controls onPause={handlePause} onPlay={handlePlay} />
+        <Controls
+          onPause={handlePause}
+          onPlay={handlePlay}
+          isLoading={isLoadingFiles}
+        />
         <TrackView
           tracks={tracks}
           setActiveStem={setActiveStem}

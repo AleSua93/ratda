@@ -6,10 +6,23 @@ import Image from "next/image";
 interface Props {
   onPlay: () => void;
   onPause: () => void;
+  isLoading?: boolean;
 }
 
-export default function Controls({ onPlay, onPause }: Props) {
+export default function Controls({ onPlay, onPause, isLoading }: Props) {
   const [isPlaying, setIsPlaying] = useState(false);
+
+  if (isLoading) {
+    return (
+      <div className="text-zinc-800 text-2xl font-bold flex gap-2 items-baseline">
+        Cargando
+        <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+        <div className="h-1 w-1 bg-black rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+        <div className="h-1 w-1 bg-black rounded-full animate-bounce"></div>
+      </div>
+    );
+  }
+
   return (
     <div className="self-center text-zinc-800 flex gap-4">
       <button
