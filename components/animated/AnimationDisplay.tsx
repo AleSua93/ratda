@@ -11,7 +11,7 @@ export default function AnimationDisplay({
 }) {
   return (
     <>
-      <div className="relative overflow-clip w-full h-full">
+      <div className="relative flex self-center overflow-clip w-full max-w-[900px] max-h-[900px] h-full">
         <Presion pressureInfo={weatherData?.melodia} />
         <Temperatura temperatureInfo={weatherData?.bajo} />
         <Humedad humidityInfo={weatherData?.sosten} />

@@ -42,7 +42,7 @@ const Home: NextPage = () => {
         <div className="self-center">
           {/* RATDA */}
           <Image
-            height={150}
+            height={100}
             src={titulo}
             alt="RATDA"
             className="self-center"
