@@ -47,7 +47,7 @@ export default function Temperatura({
         <Image
           src={doorImage}
           alt={doorImage.src}
-          className="absolute z-[-1] left-[170px] top-[-5px] scale-[130%]"
+          className="absolute z-[-1] scale-[130%] max-h-full top-[49%] left-[63%] transform -translate-x-1/2 -translate-y-1/2"
           unoptimized
         />
       </>
@@ -56,7 +56,7 @@ export default function Temperatura({
         <Image
           src={boyImage}
           alt={boyImage.src}
-          className="absolute left-[210px] top-[25px] scale-50"
+          className="absolute scale-50 max-h-full top-[50%] left-[65%] transform -translate-x-1/2 -translate-y-1/2"
           style={{
             filter:
               "drop-shadow(2px 0 0 black) drop-shadow(0 2px 0 black) drop-shadow(0 0 1px black)",

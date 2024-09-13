@@ -9,19 +9,19 @@ const lightbulbImages = [
   {
     range: { min: -Infinity, max: 4.8 },
     image: humedad_f1_v1,
-    className: "scale-[150%] top-[40px] left-[200px]",
+    className: "left-[65%] top-[53%] scale-[150%]",
   },
   {
     range: { min: 4.8, max: Infinity },
     image: humedad_f1_v2,
-    className: "left-[-50px] top-[-20px]",
+    className: "left-[45%] top-[44%]",
   },
 ];
 
 export default function Viento({ windInfo }: { windInfo?: ApiWeatherData }) {
   const windValue = windInfo?.value ?? 4;
 
-  const stainImage = lightbulbImages.find(
+  const lightbulb = lightbulbImages.find(
     (i) => i.range.min <= windValue && windValue < i.range.max
   );
 
@@ -29,9 +29,9 @@ export default function Viento({ windInfo }: { windInfo?: ApiWeatherData }) {
     <>
       {/* Foquito */}
       <Image
-        src={stainImage?.image!}
-        alt={stainImage?.image.src!}
-        className={`absolute z-[2] left-[-50px] top-[-20px] ${stainImage?.className}`}
+        src={lightbulb?.image!}
+        alt={lightbulb?.image.src!}
+        className={`absolute z-[2] max-h-full transform -translate-x-1/2 -translate-y-1/2 ${lightbulb?.className}`}
         style={{
           filter:
             "drop-shadow(2px 0 0 gray) drop-shadow(0 2px 0 gray) drop-shadow(0 0 1px gray)",
@@ -41,7 +41,7 @@ export default function Viento({ windInfo }: { windInfo?: ApiWeatherData }) {
       <Image
         src={viento_f1_v1}
         alt="viento_f1_v1"
-        className="absolute z-[4] top-[-110px] left-[10px]"
+        className="absolute z-[4] max-h-full top-[47%] left-[50.5%] transform -translate-x-1/2 -translate-y-1/2"
       />
       {/* ni idea que es esto */}
       {/* <Image

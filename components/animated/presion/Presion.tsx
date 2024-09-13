@@ -1,7 +1,7 @@
 import Image from "next/image";
 import presión_f1_v1 from "../../../public/assets/presion/presión_f1_v1.png";
 import presión_f1_v2 from "../../../public/assets/presion/presión_f1_v2.png";
-import presión_f2_v4 from "../../../public/assets/presion/presión_f2_v4.png";
+import presión_f2_v4 from "../../../public/assets/presion/presion_f2_v4.png";
 import presión_f2_v1 from "../../../public/assets/presion/presión_f2_v1.png";
 import presión_f2_v2 from "../../../public/assets/presion/presión_f2_v2.png";
 import presión_f2_v3 from "../../../public/assets/presion/presión_f2_v3.png";
@@ -58,7 +58,7 @@ export default function Presion({
         <Image
           src={backgroundImage}
           alt={backgroundImage.src}
-          className="absolute"
+          className="absolute max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         />
       </>
     </>
