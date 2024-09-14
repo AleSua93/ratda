@@ -2,7 +2,6 @@ import Image from "next/image";
 import humedad_f1_v2 from "../../../public/assets/humedad/humedad_f1_v2_loopable.gif";
 import humedad_f1_v1 from "../../../public/assets/humedad/humedad_f1_v1.png";
 import viento_f1_v1 from "../../../public/assets/viento/viento_f1_v1.png";
-import viento_f2_v3 from "../../../public/assets/viento/viento_f2_v3.gif";
 import { ApiWeatherData } from "../../../pages/api/weather";
 
 const lightbulbImages = [

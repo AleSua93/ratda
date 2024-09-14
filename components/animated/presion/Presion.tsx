@@ -8,9 +8,9 @@ import presión_f2_v3 from "../../../public/assets/presion/presión_f2_v3.png";
 import { ApiWeatherData } from "../../../pages/api/weather";
 
 const pressureCrackImages = [
-  { range: { min: -Infinity, max: 1020 }, image: presión_f1_v2 },
-  { range: { min: 1020, max: 1025 }, image: presión_f1_v1 },
-  { range: { min: 1025, max: Infinity }, image: presión_f1_v2 },
+  { range: { min: -Infinity, max: 1020 }, image: presión_f1_v1 },
+  { range: { min: 1020, max: 1025 }, image: presión_f1_v2 },
+  { range: { min: 1025, max: Infinity }, image: presión_f1_v1 },
 ];
 
 const pressureBackgroundImages = [
@@ -49,7 +49,7 @@ export default function Presion({
           <Image
             src={crackImage}
             alt={crackImage.src}
-            className="absolute z-[1] max-h-full scale-[250%] top-[96%] left-[38%] transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute z-[1] max-h-full scale-[150%] top-[70%] left-[30%] transform -translate-x-1/2 -translate-y-1/2"
           />
         )}
       </>

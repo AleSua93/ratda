@@ -34,7 +34,7 @@ export default function Controls({ onPlay, onPause, isLoading }: Props) {
           onPlay();
         }}
       >
-        <Image src={play} alt="play" width={96} height={96} />
+        <Image src={play} alt="play" width={64} height={64} />
       </button>
       <button
         type="button"
@@ -47,7 +47,7 @@ export default function Controls({ onPlay, onPause, isLoading }: Props) {
           onPause();
         }}
       >
-        <Image src={stop} alt="stop" width={96} height={96} />
+        <Image src={stop} alt="stop" width={64} height={64} />
       </button>
     </div>
   );
