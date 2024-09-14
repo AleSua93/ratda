@@ -40,7 +40,7 @@ export default function Viento({ windInfo }: { windInfo?: ApiWeatherData }) {
       <Image
         src={viento_f1_v1}
         alt="viento_f1_v1"
-        className="absolute z-[4] max-h-full top-[47%] left-[50.5%] transform -translate-x-1/2 -translate-y-1/2"
+        className="absolute z-[4] max-h-full top-[48%] left-[50.5%] transform -translate-x-1/2 -translate-y-1/2"
       />
       {/* ni idea que es esto */}
       {/* <Image
