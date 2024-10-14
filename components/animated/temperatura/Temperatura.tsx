@@ -15,8 +15,9 @@ const temperatureBoyImages = [
 ];
 
 const temperatureDoorImages = [
-  { range: { min: -Infinity, max: 15 }, image: temperatura_f1_v1 },
-  { range: { min: 15, max: Infinity }, image: temperatura_f1_v2 },
+  { range: { min: -Infinity, max: 10 }, image: temperatura_f1_v1 },
+  { range: { min: 10, max: 15 }, image: temperatura_f1_v2 },
+  { range: { min: 15, max: Infinity }, image: null },
 ];
 
 export default function Temperatura({
@@ -34,7 +35,7 @@ export default function Temperatura({
     (i) => i.range.min <= temperatureValue && temperatureValue < i.range.max
   )?.image;
 
-  if (!boyImage || !doorImage) {
+  if (!boyImage) {
     throw new Error(
       `No suitable image found for ${temperatureInfo?.value} ${temperatureInfo?.unit}`
     );
@@ -44,19 +45,21 @@ export default function Temperatura({
     <>
       <>
         {/* Door */}
-        <Image
-          src={doorImage}
-          alt={doorImage.src}
-          className="absolute z-[-1] scale-[130%] max-h-full top-[49%] left-[63%] transform -translate-x-1/2 -translate-y-1/2"
-          unoptimized
-        />
+        {doorImage && (
+          <Image
+            src={doorImage}
+            alt={doorImage.src}
+            className="absolute z-[-1] scale-[130%] max-h-full top-[49%] left-[63%] transform -translate-x-1/2 -translate-y-1/2"
+            unoptimized
+          />
+        )}
       </>
       <>
         {/* Boy */}
         <Image
           src={boyImage}
           alt={boyImage.src}
-          className="absolute scale-50 max-h-full top-[50%] left-[65%] transform -translate-x-1/2 -translate-y-1/2"
+          className="absolute scale-50 max-h-full top-[10%] left-[16%]"
           style={{
             filter:
               "drop-shadow(2px 0 0 black) drop-shadow(0 2px 0 black) drop-shadow(0 0 1px black)",

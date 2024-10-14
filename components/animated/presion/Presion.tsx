@@ -49,7 +49,7 @@ export default function Presion({
           <Image
             src={crackImage}
             alt={crackImage.src}
-            className="absolute z-[1] max-h-full scale-[150%] top-[63%] left-[30%] transform -translate-x-1/2 -translate-y-1/2"
+            className="absolute z-[1] scale-[150%] top-[25%] left-[-20%]"
           />
         )}
       </>
@@ -58,7 +58,8 @@ export default function Presion({
         <Image
           src={backgroundImage}
           alt={backgroundImage.src}
-          className="absolute max-h-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+          width={1200}
+          height={900}
         />
       </>
     </>

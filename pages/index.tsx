@@ -36,7 +36,7 @@ const Home: NextPage = () => {
   return (
     <div className="flex flex-col h-screen text-lg">
       <div className="h-full flex flex-col">
-        <div className="absolute top-8 right-8 z-50">
+        <div className="absolute top-8 right-8 z-50 ">
           <InformationPopup />
         </div>
         <div className="self-center">
@@ -50,7 +50,9 @@ const Home: NextPage = () => {
         </div>
         {isDebugMode && <DebugTable tracks={tracks} />}
         {/* {analyser && <AudioVisualizer analyser={analyser} play={isPlaying} />} */}
-        <AnimationDisplay weatherData={weatherData} />
+        <div className="flex h-full justify-center">
+          <AnimationDisplay weatherData={weatherData} />
+        </div>
       </div>
       <div className="flex items-center flex-col p-2 border-t border-t-gray-900 gap-4 justify-center z-10">
         <Controls
