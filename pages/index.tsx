@@ -11,7 +11,12 @@ import { useDebugMode } from "../context/debug-context";
 import usePlayback from "../hooks/usePlayback";
 import Image from "next/image";
 import titulo from "../public/assets/misc/titulo.png";
-import AnimationDisplay from "../components/animated/AnimationDisplay";
+import dynamic from "next/dynamic";
+
+const AnimationDisplay = dynamic(
+  () => import("../components/animated/AnimationDisplay"),
+  { ssr: false }
+);
 
 const Home: NextPage = () => {
   const { isDebugMode, setIsDebugMode } = useDebugMode();

@@ -20,7 +20,7 @@ export default function AnimationDisplay({
         className={clsx(
           "relative self-center",
           isMobile
-            ? "min-w-[400px] w-[400px] h-[240px] min-h-[240]"
+            ? "min-w-[400px] w-[400px] h-[240px] min-h-[240px]"
             : "min-w-[1000px] w-[1000px] h-[600px] min-h-[600px]"
           // : "min-h-[600px] min-w-[1000px] w-[1000px] h-[600px]"
         )}
